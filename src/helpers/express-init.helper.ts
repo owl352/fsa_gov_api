@@ -33,7 +33,7 @@ export function initExpress() {
             "applicant.inn": obj["applicant.inn"] ?? null,
             "applicant.fullName": obj["applicant.fullName"] ?? null,
           },
-          req.body.page
+          req.body.page != undefined ? parseInt(req.body.page) : undefined
         )
       );
     } catch (error) {
@@ -70,7 +70,7 @@ export function initExpress() {
             "applicant.fullName": obj["applicant.fullName"] ?? null,
             "testingLabs.regNumber": obj["testingLabs.regNumber"] ?? null,
           },
-          req.body.page
+          req.body.page != undefined ? parseInt(req.body.page) : undefined
         )
       );
     } catch (error) {
@@ -98,23 +98,28 @@ export function initExpress() {
     try {
       const obj1: DeclarationFilters = req.body[0] as DeclarationFilters;
       const obj2: CertificatesFilters = req.body[1] as CertificatesFilters;
-      console.log(req.body);
-      const data = await Promise.all([
-        finDeclarations({
-          declRegDate: obj1.declRegDate ?? null,
-          declEndDate: obj1.declEndDate ?? null,
-          idDeclaration: obj1.idDeclaration ?? null,
-          "applicant.inn": obj1["applicant.inn"] ?? null,
-          "applicant.fullName": obj1["applicant.fullName"] ?? null,
-        }),
-        findCertificates({
-          certRegDate: obj2.certRegDate ?? null,
-          certEndDate: obj2.certEndDate ?? null,
-          idCertificate: obj2.idCertificate ?? null,
-          idStatus: obj2.idStatus ?? null,
-          "applicant.fullName": obj2["applicant.fullName"] ?? null,
-          "testingLabs.regNumber": obj2["testingLabs.regNumber"] ?? null,
-        }),
+      const data: any = await Promise.all([
+        finDeclarations(
+          {
+            declRegDate: obj1.declRegDate ?? null,
+            declEndDate: obj1.declEndDate ?? null,
+            idDeclaration: obj1.idDeclaration ?? null,
+            "applicant.inn": obj1["applicant.inn"] ?? null,
+            "applicant.fullName": obj1["applicant.fullName"] ?? null,
+          },
+          req.body.page != undefined ? parseInt(req.body.page) : undefined
+        ),
+        findCertificates(
+          {
+            certRegDate: obj2.certRegDate ?? null,
+            certEndDate: obj2.certEndDate ?? null,
+            idCertificate: obj2.idCertificate ?? null,
+            idStatus: obj2.idStatus ?? null,
+            "applicant.fullName": obj2["applicant.fullName"] ?? null,
+            "testingLabs.regNumber": obj2["testingLabs.regNumber"] ?? null,
+          },
+          req.body.page != undefined ? parseInt(req.body.page) : undefined
+        ),
       ]);
       res.send(data);
     } catch (error) {
