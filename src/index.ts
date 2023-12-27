@@ -5,8 +5,8 @@ import { initExpress } from "./helpers/express-init.helper";
 config();
 
 async function main() {
-  await mongoConnect();
-  initExpress();
+  const mongo = await mongoConnect();
+  initExpress(mongo);
 }
 
 main();

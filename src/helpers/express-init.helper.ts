@@ -3,14 +3,34 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { finDeclarations } from "./find-declarations.helper";
 import { CertificatesFilters, DeclarationFilters } from "../@types";
-import { isAutoAccessorPropertyDeclaration } from "typescript";
 import { findDeclarationDetails } from "./find-declaration-details.helper";
 import { findCertificates } from "./find-certificates.helper";
 import { findCertificateDetails } from "./find-certificate-details.helper";
+import { RateLimiterMongo } from "rate-limiter-flexible";
 
-export function initExpress() {
+export function initExpress(mongo: any) {
+  const opts = {
+    storeClient: mongo.connection,
+    points: 10, // Number of points
+    duration: 1, // Per second(s)
+    tableName:'test'
+  };
+
+  const rateLimiterMongo = new RateLimiterMongo(opts);
+
+  const rateLimiterMiddleware = (req: any, res: any, next: any) => {
+    rateLimiterMongo
+      .consume(req.ip,2)
+      .then(() => {
+        next();
+      })
+      .catch(() => {
+        res.status(429).send("Too Many Requests");
+      });
+  };
+
   const app = express();
-
+  app.use(rateLimiterMiddleware);
   app.use(
     cors({
       origin: "http://localhost:3000",
