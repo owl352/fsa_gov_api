@@ -6,7 +6,8 @@
     "bun-types": "latest"
   },
   "scripts": {
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "serve": "bun pm2 start --interpreter ~/.bun/bin/bun src/index.ts --cron-restart=\"0 19 * * *\""
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
