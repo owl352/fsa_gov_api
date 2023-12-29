@@ -7,20 +7,22 @@ import { findDeclarationDetails } from "./find-declaration-details.helper";
 import { findCertificates } from "./find-certificates.helper";
 import { findCertificateDetails } from "./find-certificate-details.helper";
 import { RateLimiterMongo } from "rate-limiter-flexible";
+import { findDeclarationDecode } from "./find-declaration-decode.helper";
+import { findCertificateDecode } from "./find-certificate-decode.helper";
 
 export function initExpress(mongo: any) {
   const opts = {
     storeClient: mongo.connection,
     points: 10, // Number of points
     duration: 1, // Per second(s)
-    tableName:'test'
+    tableName: "test",
   };
 
   const rateLimiterMongo = new RateLimiterMongo(opts);
 
   const rateLimiterMiddleware = (req: any, res: any, next: any) => {
     rateLimiterMongo
-      .consume(req.ip,2)
+      .consume(req.ip, 2)
       .then(() => {
         next();
       })
@@ -142,6 +144,26 @@ export function initExpress(mongo: any) {
         ),
       ]);
       res.send(data);
+    } catch (error) {
+      console.error(error);
+      res.status(500);
+      res.send("500");
+    }
+  });
+
+  app.post("/declDecode", async (req: Request, res: Response) => {
+    try {
+      res.send(await findDeclarationDecode(req.body.id));
+    } catch (error) {
+      console.error(error);
+      res.status(500);
+      res.send("500");
+    }
+  });
+
+  app.post("/certDecode", async (req: Request, res: Response) => {
+    try {
+      res.send(await findCertificateDecode(parseInt(req.body.id)));
     } catch (error) {
       console.error(error);
       res.status(500);
