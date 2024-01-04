@@ -1,4 +1,4 @@
-import { declarationDecodeModel } from "../models/declaration-decode.model";
+import { declarationDecodeModel } from "../models";
 
 export async function findDeclarationDecode(id: Number) {
   return await declarationDecodeModel.findOne({ idDecl: id }).lean();

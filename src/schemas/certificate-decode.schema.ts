@@ -16,4 +16,8 @@ export const certificateDecodeSchema = new Schema({
   fiasAddrobj: { type: Schema.Types.Mixed, index: true },
   tnved: { type: Schema.Types.Mixed, index: true },
   applicantDocType: { type: Schema.Types.Mixed, index: true },
+  validationFormNormDoc: { type: Schema.Types.Mixed, index: true },
+  dicNormDoc: { type: Schema.Types.Mixed, index: true },
+  techregProductListEEU: { type: Schema.Types.Mixed, index: true },
+  annexType: { type: Schema.Types.Mixed, index: true },
 });
