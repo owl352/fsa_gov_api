@@ -65,10 +65,10 @@ export async function findCertificates(
           $match: decFiltQuery,
         },
         {
-          $skip: 50 * (page ?? 0),
+          $skip: 2500 * (page ?? 0),
         },
         {
-          $limit: 10000,
+          $limit: 100000,
         },
         {
           $lookup: {

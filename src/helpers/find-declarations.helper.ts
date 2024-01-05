@@ -63,10 +63,10 @@ export async function findDeclarations(
           $match: decFiltQuery,
         },
         {
-          $skip: 50 * (page ?? 0),
+          $skip: 2500 * (page ?? 0),
         },
         {
-          $limit: 10000,
+          $limit: 20000,
         },
         {
           $lookup: {
