@@ -54,61 +54,38 @@ export async function findDeclarations(
         : { $exists: true },
     };
   }
-  if (decodeFilters != null) {
-    out = await declarationDecodeModel
-      .aggregate([
-        {
-          $match: decFiltQuery,
+  out = await declarationDecodeModel
+    .aggregate([
+      {
+        $match: decFiltQuery ?? {},
+      },
+      {
+        $skip: 2500 * (page ?? 0),
+      },
+      {
+        $limit: 20000,
+      },
+      {
+        $lookup: {
+          from: "declarationdetails",
+          localField: "idDecl",
+          foreignField: "idDeclaration",
+          as: "details",
         },
-        {
-          $skip: 2500 * (page ?? 0),
+      },
+      {
+        $unwind: "$details",
+      },
+      {
+        $replaceRoot: { newRoot: "$details" },
+      },
+      {
+        $match: {
+          ...(filtersQuery ?? {}),
         },
-        {
-          $limit: 20000,
-        },
-        {
-          $lookup: {
-            from: "declarationdetails",
-            localField: "idDecl",
-            foreignField: "idDeclaration",
-            as: "details",
-          },
-        },
-        {
-          $unwind: "$details",
-        },
-        {
-          $replaceRoot: { newRoot: "$details" },
-        },
-        {
-          $match: {
-            ...filtersQuery,
-          },
-        },
-        {
-          $project: {
-            _id: 0,
-            idDeclaration: 1,
-            Number: 1,
-            idStatus: 1,
-            declRegDate: 1,
-            declEndDate: 1,
-            applicant: 1,
-            manufacturer: 1,
-            product: 1,
-            idTechnicalReglaments: 1,
-            testingLabs: 1,
-          },
-        },
-      ])
-      .limit(50)
-      .allowDiskUse(true)
-      .exec();
-  } else {
-    out = await declarationDetailsModel
-      .find(
-        filtersQuery ?? {},
-        {
+      },
+      {
+        $project: {
           _id: 0,
           idDeclaration: 1,
           Number: 1,
@@ -121,15 +98,11 @@ export async function findDeclarations(
           idTechnicalReglaments: 1,
           testingLabs: 1,
         },
-        {
-          skip: 50 * (page ?? 0),
-          sort: { idCertificate: 1 },
-          limit: 50,
-        }
-      )
-      .allowDiskUse(true)
-      .lean();
-  }
+      },
+    ])
+    .limit(50)
+    .allowDiskUse(true)
+    .exec();
   console.log("out");
   return out;
 }

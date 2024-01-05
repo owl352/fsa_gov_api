@@ -58,61 +58,38 @@ export async function findCertificates(
         : { $exists: true },
     };
   }
-  if (decodeFilters != null) {
-    out = await certificateDecodeModel
-      .aggregate([
-        {
-          $match: decFiltQuery,
+  out = await certificateDecodeModel
+    .aggregate([
+      {
+        $match: decFiltQuery ?? {},
+      },
+      {
+        $skip: 2500 * (page ?? 0),
+      },
+      {
+        $limit: 100000,
+      },
+      {
+        $lookup: {
+          from: "certificatedetails",
+          localField: "idCert",
+          foreignField: "idCertificate",
+          as: "details",
         },
-        {
-          $skip: 2500 * (page ?? 0),
+      },
+      {
+        $unwind: "$details",
+      },
+      {
+        $replaceRoot: { newRoot: "$details" },
+      },
+      {
+        $match: {
+          ...(filtersQuery ?? {}),
         },
-        {
-          $limit: 100000,
-        },
-        {
-          $lookup: {
-            from: "certificatedetails",
-            localField: "idCert",
-            foreignField: "idCertificate",
-            as: "details",
-          },
-        },
-        {
-          $unwind: "$details",
-        },
-        {
-          $replaceRoot: { newRoot: "$details" },
-        },
-        {
-          $match: {
-            ...filtersQuery,
-          },
-        },
-        {
-          $project: {
-            _id: 0,
-            idCertificate: 1,
-            number: 1,
-            idStatus: 1,
-            certRegDate: 1,
-            certEndDate: 1,
-            applicant: 1,
-            manufacturer: 1,
-            product: 1,
-            idTechnicalReglaments: 1,
-            testingLabs: 1,
-          },
-        },
-      ])
-      .limit(50)
-      .allowDiskUse(true)
-      .exec();
-  } else {
-    out = await certificateDetailsModel
-      .find(
-        filtersQuery ?? {},
-        {
+      },
+      {
+        $project: {
           _id: 0,
           idCertificate: 1,
           number: 1,
@@ -125,14 +102,10 @@ export async function findCertificates(
           idTechnicalReglaments: 1,
           testingLabs: 1,
         },
-        {
-          skip: 50 * (page ?? 0),
-          sort: { idCertificate: 1 },
-          limit: 50,
-        }
-      )
-      .allowDiskUse(true)
-      .lean();
-  }
+      },
+    ])
+    .limit(50)
+    .allowDiskUse(true)
+    .exec();
   return out;
 }
