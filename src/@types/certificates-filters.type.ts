@@ -5,11 +5,11 @@ export type CertificatesFilters = {
   idStatus?: number | null;
   number?: string | null;
   "applicant.inn"?: string | null;
+  "applicant.shortName"?: string | null;
+  "applicant.fullName"?: string | null;
   "manufacturer.shortName"?: string | null;
   "manufacturer.fullName"?: string | null;
   "product.fullName"?: string | null;
-  "applicant.shortName"?: string | null;
-  "applicant.fullName"?: string | null;
   "testingLabs.regNumber"?: string | null;
   "testingLabs.fullName"?: string | null;
   "certificationAuthority.fullName"?: string | null;

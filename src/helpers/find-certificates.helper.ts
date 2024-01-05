@@ -65,13 +65,10 @@ export async function findCertificates(
           $match: decFiltQuery,
         },
         {
-          $sort: { idCert: 1 },
-        },
-        {
           $skip: 50 * (page ?? 0),
         },
         {
-          $limit: 50,
+          $limit: 10000,
         },
         {
           $lookup: {
@@ -108,6 +105,7 @@ export async function findCertificates(
           },
         },
       ])
+      .limit(50)
       .allowDiskUse(true)
       .exec();
   } else if (filters != null) {

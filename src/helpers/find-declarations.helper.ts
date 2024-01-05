@@ -14,6 +14,7 @@ export async function findDeclarations(
       Object.entries(filters).filter(([_, v]) => v != null)
     );
   }
+  console.log("start");
   if (decodeFilters != null) {
     decFiltQuery = {
       "validationObjectType.name": decodeFilters.validationObjectType
@@ -54,6 +55,7 @@ export async function findDeclarations(
         : { $exists: true },
     };
   }
+  console.log(decFiltQuery);
   if (decodeFilters != null) {
     out = await declarationDecodeModel
       .aggregate([
@@ -61,19 +63,16 @@ export async function findDeclarations(
           $match: decFiltQuery,
         },
         {
-          $sort: { idDecl: 1 },
-        },
-        {
           $skip: 50 * (page ?? 0),
         },
         {
-          $limit: 50,
+          $limit: 10000,
         },
         {
           $lookup: {
             from: "declarationdetails",
             localField: "idDecl",
-            foreignField: "declarationdetails",
+            foreignField: "idDeclaration",
             as: "details",
           },
         },
@@ -104,6 +103,7 @@ export async function findDeclarations(
           },
         },
       ])
+      .limit(50)
       .allowDiskUse(true)
       .exec();
   } else if (filters != null) {
@@ -132,6 +132,6 @@ export async function findDeclarations(
       .allowDiskUse(true)
       .lean();
   }
-  console.log('out')
+  console.log("out");
   return out;
 }
