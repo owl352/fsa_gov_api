@@ -14,7 +14,6 @@ export async function findDeclarations(
       Object.entries(filters).filter(([_, v]) => v != null)
     );
   }
-  console.log("start");
   if (decodeFilters != null) {
     decFiltQuery = {
       "validationObjectType.name": decodeFilters.validationObjectType
@@ -55,7 +54,6 @@ export async function findDeclarations(
         : { $exists: true },
     };
   }
-  console.log(decFiltQuery);
   if (decodeFilters != null) {
     out = await declarationDecodeModel
       .aggregate([
