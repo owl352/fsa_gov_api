@@ -108,10 +108,10 @@ export async function findCertificates(
       .limit(50)
       .allowDiskUse(true)
       .exec();
-  } else if (filters != null) {
+  } else {
     out = await certificateDetailsModel
       .find(
-        filtersQuery,
+        filtersQuery ?? {},
         {
           _id: 0,
           idCertificate: 1,

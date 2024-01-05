@@ -104,10 +104,10 @@ export async function findDeclarations(
       .limit(50)
       .allowDiskUse(true)
       .exec();
-  } else if (filters != null) {
+  } else {
     out = await declarationDetailsModel
       .find(
-        filtersQuery,
+        filtersQuery ?? {},
         {
           _id: 0,
           idDeclaration: 1,
