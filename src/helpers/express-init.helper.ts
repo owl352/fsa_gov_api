@@ -203,17 +203,19 @@ export function initExpress(mongo: any) {
       let obj1Decode: DeclarationDecodeFilters | null = null;
       let obj2: CertificatesFilters | null = null;
       let obj2Decode: CertificatesDecodeFilters | null = null;
-      if (req.body[0].filters != undefined) {
-        obj1 = req.body[0].filters as CertificatesFilters;
+      if (req.body["declaration"].filters != undefined) {
+        obj1 = req.body["declaration"].filters as DeclarationFilters;
       }
-      if (req.body[0].decFilters != undefined) {
-        obj1Decode = req.body[0].decFilters as CertificatesDecodeFilters;
+      if (req.body["declaration"].decFilters != undefined) {
+        obj1Decode = req.body["declaration"]
+          .decFilters as DeclarationDecodeFilters;
       }
-      if (req.body[1].filters != undefined) {
-        obj2 = req.body[1].filters as CertificatesFilters;
+      if (req.body["certificate"].filters != undefined) {
+        obj2 = req.body["certificate"].filters as CertificatesFilters;
       }
-      if (req.body[1].decFilters != undefined) {
-        obj2Decode = req.body[1].decFilters as CertificatesDecodeFilters;
+      if (req.body["certificate"].decFilters != undefined) {
+        obj2Decode = req.body["certificate"]
+          .decFilters as CertificatesDecodeFilters;
       }
       const data: any = await Promise.all([
         await findDeclarations(
