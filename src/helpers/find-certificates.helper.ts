@@ -109,7 +109,7 @@ export async function findCertificates(
           "certificationAuthority.fullName": 1,
           "certificationAuthority.attestatRegNumber": 1,
           details: {
-            id: "$details.idCert",
+            idCert: "$details.idCert",
             applicantDocType:"$details.applicantDocType",
             status:"$details.status",
             tnveds:"$details.tnved",
