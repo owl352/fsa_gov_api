@@ -98,7 +98,7 @@ export function initExpress(mongo: any) {
         req.body.certificate || null;
       const page = req.body.page ?? 0;
 
-      const data =  Promise.all([
+      const data = Promise.all([
         findDeclarations({ ...declarationFilters, page }),
         findCertificates({ ...certificateFilters, page }),
       ]);
