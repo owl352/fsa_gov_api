@@ -13,7 +13,7 @@ import { findCertificateDecode } from "./find-certificate-decode.helper";
 export function initExpress(mongo: any) {
   const rateLimiterMongo = new RateLimiterMongo({
     storeClient: mongo.connection,
-    points: 20,
+    points: 10,
     duration: 1,
     tableName: "test",
   });
@@ -49,7 +49,7 @@ export function initExpress(mongo: any) {
   app.post("/declarations", async (req: Request, res: Response) => {
     try {
       const filters: DeclarationFilters | null = req.body || null;
-      findDeclarations(filters).then(res.send);
+      res.send(await findDeclarations(filters));
     } catch (error) {
       handleError(res, error);
     }
@@ -59,7 +59,7 @@ export function initExpress(mongo: any) {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
-        findDeclarationDetails(id).then(res.send);
+        res.send(await findDeclarationDetails(id));
       } else {
         res.status(404).send("error");
       }
@@ -71,7 +71,7 @@ export function initExpress(mongo: any) {
   app.post("/certificates", async (req: Request, res: Response) => {
     try {
       const filters: CertificatesFilters | null = req.body || null;
-      findCertificates(filters).then(res.send);
+      res.send(await findCertificates(filters));
     } catch (error) {
       handleError(res, error);
     }
@@ -81,7 +81,7 @@ export function initExpress(mongo: any) {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
-        findCertificateDetails(id).then(res.send);
+        res.send(await findCertificateDetails(id));
       } else {
         res.status(404).send("error");
       }
@@ -101,7 +101,9 @@ export function initExpress(mongo: any) {
       Promise.all([
         findDeclarations({ ...declarationFilters, page }),
         findCertificates({ ...certificateFilters, page }),
-      ]).then(res.send);
+      ]);
+
+      res.send(data);
     } catch (error) {
       handleError(res, error);
     }
@@ -111,7 +113,7 @@ export function initExpress(mongo: any) {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
-        findDeclarationDecode(id).then(res.send);
+        res.send(await findDeclarationDecode(id));
       } else {
         res.status(404).send("error");
       }
@@ -124,7 +126,7 @@ export function initExpress(mongo: any) {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
-        findCertificateDecode(id).then(res.send);
+        res.send(await findCertificateDecode(id));
       } else {
         res.status(404).send("error");
       }
