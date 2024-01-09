@@ -129,7 +129,6 @@ export async function findDeclarations(
     ])
     .allowDiskUse(true)
     .exec();
-  console.log(out);
   console.log("out");
   return out;
 }
