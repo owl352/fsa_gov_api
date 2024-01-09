@@ -122,6 +122,9 @@ export async function findCertificates(
         },
       },
       {
+        $skip: (page ?? 0) * 50,
+      },
+      {
         $limit: 50, // Получить 50 документов
       },
       {

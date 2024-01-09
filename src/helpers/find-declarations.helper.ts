@@ -60,9 +60,9 @@ export async function findDeclarations(
     .aggregate([
       {
         $lookup: {
-          from: "declaration_decodes", 
+          from: "declaration_decodes",
           localField: "idDeclaration",
-          foreignField: "idDecl", 
+          foreignField: "idDecl",
           as: "details",
         },
       },
@@ -108,16 +108,19 @@ export async function findDeclarations(
           "certificationAuthority.attestatRegNumber": 1,
           details: {
             idDecl: "$details.idDecl",
-            applicantDocType:"$details.applicantDocType",
-            status:"$details.status",
-            tnveds:"$details.tnved",
-            contactType:"$details.contactType",
-            applicantType:"$details.applicantType",
-            declarantType:"$details.declarantType",
-            validationFormNormDoc:"$details.validationFormNormDoc",
-            oksm:"$details.oksm",
+            applicantDocType: "$details.applicantDocType",
+            status: "$details.status",
+            tnveds: "$details.tnved",
+            contactType: "$details.contactType",
+            applicantType: "$details.applicantType",
+            declarantType: "$details.declarantType",
+            validationFormNormDoc: "$details.validationFormNormDoc",
+            oksm: "$details.oksm",
           },
         },
+      },
+      {
+        $skip: (page ?? 0) * 50,
       },
       {
         $limit: 50, // Получить 50 документов
