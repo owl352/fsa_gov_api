@@ -14,7 +14,7 @@ export const declarationDetailsSchema = new Schema({
   unpublishedChanges: { type: Schema.Types.Mixed },
   idStatus: { type: Schema.Types.Mixed },
   assignRegNumber: { type: Schema.Types.Mixed },
-  Number: { type: Schema.Types.Mixed },
+  number: { type: Schema.Types.Mixed },
   submissionDate: { type: Schema.Types.Mixed },
   declRegDate: { type: Schema.Types.Mixed },
   declEndDate: { type: Schema.Types.Mixed },
