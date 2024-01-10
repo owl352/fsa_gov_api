@@ -36,32 +36,83 @@ export async function findCertificates(filters: CertificatesFilters | null) {
       page,
     } = filters;
 
-    filtersQuery.certRegDate = certRegDate ? { $regex: certRegDate } : undefined;
-    filtersQuery.certEndDate = certEndDate ? { $regex: certEndDate } : undefined;
+    filtersQuery.certRegDate = certRegDate
+      ? { $regex: certRegDate }
+      : undefined;
+    filtersQuery.certEndDate = certEndDate
+      ? { $regex: certEndDate }
+      : undefined;
     filtersQuery.idCertificate = idCertificate ?? undefined;
     filtersQuery.idStatus = idStatus ?? undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
     filtersQuery["applicant.inn"] = inn ? { $regex: inn } : undefined;
-    filtersQuery["applicant.shortName"] = applicantShortName ? { $regex: applicantShortName } : undefined;
-    filtersQuery["applicant.fullName"] = applicantFullName ? { $regex: applicantFullName } : undefined;
-    filtersQuery["manufacturer.shortName"] = manufacturerShortName ? { $regex: manufacturerShortName } : undefined;
-    filtersQuery["manufacturer.fullName"] = manufacturerFullName ? { $regex: manufacturerFullName } : undefined;
-    filtersQuery["product.fullName"] = productFullName ? { $regex: productFullName } : undefined;
-    filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber ? { $regex: testingLabsRegNumber } : undefined;
-    filtersQuery["testingLabs.fullName"] = testingLabsFullName ? { $regex: testingLabsFullName } : undefined;
-    filtersQuery["certificationAuthority.fullName"] = certificationAuthorityFullName ? { $regex: certificationAuthorityFullName } : undefined;
-    filtersQuery["certificationAuthority.attestatRegNumber"] = certificationAuthorityAttestatRegNumber ? { $regex: certificationAuthorityAttestatRegNumber } : { $exists: true };
-    filtersQuery["details.validationObjectType.name"] = validationObjectType ? { $regex: validationObjectType } : { $exists: true };
-    filtersQuery["details.conformityDocType.name"] = conformityDocType ? { $regex: conformityDocType } : { $exists: true };
-    filtersQuery["details.status.name"] = status ? { $regex: status } : undefined;
-    filtersQuery["details.contactType.name"] = contactType ? { $regex: contactType } : undefined;
-    filtersQuery["details.oksm.shortName"] = oksm ? { $regex: oksm } : undefined;
-    filtersQuery["details.fiasAddrobj.offname"] = fiasAddrobj ? { $regex: fiasAddrobj } : undefined;
-    filtersQuery["details.tnved.name"] = tnvedName ? { $regex: tnvedName } : undefined;
-    filtersQuery["details.tnved.code"] = tnvedCode && tnvedCodePart === "1" ? { $regex: tnvedCode } : tnvedCode ? tnvedCode : undefined;
-    filtersQuery["details.validationFormNormDoc.name"] = validationFormNormDocName ? { $regex: validationFormNormDocName } : undefined;
-    filtersQuery["details.validationFormNormDoc.docNum"] = validationFormNormDocNum ? { $regex: validationFormNormDocNum } : undefined;
-    filtersQuery["details.techregProductListEEU.name"] = techregProductListEEU ? { $regex: techregProductListEEU } : undefined;
+    filtersQuery["applicant.shortName"] = applicantShortName
+      ? { $regex: applicantShortName }
+      : undefined;
+    filtersQuery["applicant.fullName"] = applicantFullName
+      ? { $regex: applicantFullName }
+      : undefined;
+    filtersQuery["manufacturer.shortName"] = manufacturerShortName
+      ? { $regex: manufacturerShortName }
+      : undefined;
+    filtersQuery["manufacturer.fullName"] = manufacturerFullName
+      ? { $regex: manufacturerFullName }
+      : undefined;
+    filtersQuery["product.fullName"] = productFullName
+      ? { $regex: productFullName }
+      : undefined;
+    filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
+      ? { $regex: testingLabsRegNumber }
+      : undefined;
+    filtersQuery["testingLabs.fullName"] = testingLabsFullName
+      ? { $regex: testingLabsFullName }
+      : undefined;
+    filtersQuery["certificationAuthority.fullName"] =
+      certificationAuthorityFullName
+        ? { $regex: certificationAuthorityFullName }
+        : undefined;
+    filtersQuery["certificationAuthority.attestatRegNumber"] =
+      certificationAuthorityAttestatRegNumber
+        ? { $regex: certificationAuthorityAttestatRegNumber }
+        : { $exists: true };
+    filtersQuery["details.validationObjectType.name"] = validationObjectType
+      ? { $regex: validationObjectType }
+      : { $exists: true };
+    filtersQuery["details.conformityDocType.name"] = conformityDocType
+      ? { $regex: conformityDocType }
+      : { $exists: true };
+    filtersQuery["details.status.name"] = status
+      ? { $regex: status }
+      : undefined;
+    filtersQuery["details.contactType.name"] = contactType
+      ? { $regex: contactType }
+      : undefined;
+    filtersQuery["details.oksm.shortName"] = oksm
+      ? { $regex: oksm }
+      : undefined;
+    filtersQuery["details.fiasAddrobj.offname"] = fiasAddrobj
+      ? { $regex: fiasAddrobj }
+      : undefined;
+    filtersQuery["details.tnved.name"] = tnvedName
+      ? { $regex: tnvedName }
+      : undefined;
+    filtersQuery["details.tnved.code"] =
+      tnvedCode && tnvedCodePart === "1"
+        ? { $regex: tnvedCode }
+        : tnvedCode
+        ? tnvedCode
+        : undefined;
+    filtersQuery["details.validationFormNormDoc.name"] =
+      validationFormNormDocName
+        ? { $regex: validationFormNormDocName }
+        : undefined;
+    filtersQuery["details.validationFormNormDoc.docNum"] =
+      validationFormNormDocNum
+        ? { $regex: validationFormNormDocNum }
+        : undefined;
+    filtersQuery["details.techregProductListEEU.name"] = techregProductListEEU
+      ? { $regex: techregProductListEEU }
+      : undefined;
   }
 
   const skip = (filters != null ? filters.page ?? 0 : 0) * 50;
@@ -77,17 +128,21 @@ export async function findCertificates(filters: CertificatesFilters | null) {
         },
       },
       {
-        $match: Object.fromEntries(Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)),
+        $match: Object.fromEntries(
+          Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+        ),
       },
       {
         $unwind: "$product.identifications",
       },
+      
       {
         $project: {
           _id: 0,
           idCertificate: 1,
-          Number: 1,
+          number: 1,
           idStatus: 1,
+          status: "$details.status",
           certRegDate: 1,
           certEndDate: 1,
           "applicant.idLegalSubject": 1,
@@ -97,40 +152,39 @@ export async function findCertificates(filters: CertificatesFilters | null) {
           "applicant.fullName": 1,
           "applicant.shortName": 1,
           "applicant.inn": 1,
+          "applicant.applicantDocType": "$details.applicantDocType",
           "manufacturer.idLegalSubject": 1,
           "manufacturer.idEgrul": 1,
           "manufacturer.idLegalSubjectType": 1,
           "manufacturer.fullName": 1,
           "manufacturer.shortName": 1,
+          contactType: "$details.contactType",
+          applicantType: "$details.applicantType",
+          declarantType: "$details.declarantType",
+          oksm: "$details.oksm",
           product: {
             idProduct: "$product.idProduct",
             idProductOrigin: "$product.idProductOrigin",
             fullName: "$product.fullName",
             idTnveds: "$product.identifications.idTnveds",
+            tnveds: "$details.tnved",
           },
           idTechnicalReglaments: 1,
+          validationFormNormDocDecoded: "$details.validationFormNormDoc",
           "testingLabs.regNumber": 1,
           "testingLabs.fullName": 1,
           "certificationAuthority.fullName": 1,
           "certificationAuthority.attestatRegNumber": 1,
-          details: {
-            idCert: "$details.idCert",
-            applicantDocType: "$details.applicantDocType",
-            status: "$details.status",
-            tnveds: "$details.tnved",
-            contactType: "$details.contactType",
-            applicantType: "$details.applicantType",
-            declarantType: "$details.declarantType",
-            validationFormNormDoc: "$details.validationFormNormDoc",
-            oksm: "$details.oksm",
-          },
         },
+      },
+      {
+        $unwind: "$status",
       },
       {
         $skip: skip,
       },
       {
-        $limit: 50,
+        $limit: 1,
       },
       {
         $sort: {

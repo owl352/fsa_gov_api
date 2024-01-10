@@ -5,4 +5,3 @@ export const declarationDetailsModel = mongoose.model(
   "declarationDetails",
   declarationDetailsSchema
 );
-declarationDetailsModel.createIndexes({ idDeclaration: 1 });
