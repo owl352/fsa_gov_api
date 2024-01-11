@@ -184,7 +184,7 @@ export async function findCertificates(filters: CertificatesFilters | null) {
         $skip: skip,
       },
       {
-        $limit: 1,
+        $limit: 50,
       },
       {
         $sort: {
