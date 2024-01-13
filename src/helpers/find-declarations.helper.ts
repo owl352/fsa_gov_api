@@ -71,7 +71,7 @@ export async function findDeclarations(filters: DeclarationFilters | null) {
     filtersQuery["certificationAuthority.attestatRegNumber"] =
       certificationAuthorityAttestatRegNumber
         ? { $regex: certificationAuthorityAttestatRegNumber }
-        : { $exists: true };
+        : undefined;
     filtersQuery["details.validationObjectType.name"] = validationObjectType
       ? { $regex: validationObjectType }
       : undefined;
@@ -105,9 +105,9 @@ export async function findDeclarations(filters: DeclarationFilters | null) {
         ? { $regex: validationFormNormDocNum }
         : undefined;
 
-    console.log(Object.keys(filtersQuery).length);
   }
   const skip = (filters != null ? filters.page ?? 0 : 0) * 50;
+  console.log(filtersQuery);
 
   const out = await declarationDetailsModel
     .aggregate([
@@ -177,7 +177,7 @@ export async function findDeclarations(filters: DeclarationFilters | null) {
       },
       {
         $sort: {
-          idDeclaration: 1,
+          idDeclaration: -1,
         },
       },
     ])

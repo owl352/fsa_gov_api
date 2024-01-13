@@ -74,13 +74,13 @@ export async function findCertificates(filters: CertificatesFilters | null) {
     filtersQuery["certificationAuthority.attestatRegNumber"] =
       certificationAuthorityAttestatRegNumber
         ? { $regex: certificationAuthorityAttestatRegNumber }
-        : { $exists: true };
+        : undefined;
     filtersQuery["details.validationObjectType.name"] = validationObjectType
       ? { $regex: validationObjectType }
-      : { $exists: true };
+      : undefined;
     filtersQuery["details.conformityDocType.name"] = conformityDocType
       ? { $regex: conformityDocType }
-      : { $exists: true };
+      : undefined;
     filtersQuery["details.status.name"] = status
       ? { $regex: status }
       : undefined;
@@ -114,7 +114,7 @@ export async function findCertificates(filters: CertificatesFilters | null) {
       ? { $regex: techregProductListEEU }
       : undefined;
   }
-
+  console.log(filtersQuery);
   const skip = (filters != null ? filters.page ?? 0 : 0) * 50;
 
   const out = await certificateDetailsModel
@@ -135,7 +135,7 @@ export async function findCertificates(filters: CertificatesFilters | null) {
       {
         $unwind: "$product.identifications",
       },
-      
+
       {
         $project: {
           _id: 0,
@@ -188,7 +188,7 @@ export async function findCertificates(filters: CertificatesFilters | null) {
       },
       {
         $sort: {
-          idCertificate: 1,
+          idCertificate: -1,
         },
       },
     ])
