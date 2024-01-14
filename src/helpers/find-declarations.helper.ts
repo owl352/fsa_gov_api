@@ -130,6 +130,11 @@ export async function findDeclarations(
         $unwind: "$product.identifications",
       },
       {
+        $sort: {
+          idDeclaration: -1,
+        },
+      },
+      {
         $project: {
           _id: 0,
           idDeclaration: 1,
@@ -175,11 +180,6 @@ export async function findDeclarations(
       },
       {
         $limit: isShorted ? 25 : 50, // Получить 50 документов
-      },
-      {
-        $sort: {
-          idDeclaration: -1,
-        },
       },
     ])
     .allowDiskUse(true)

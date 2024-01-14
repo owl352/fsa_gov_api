@@ -138,7 +138,11 @@ export async function findCertificates(
       {
         $unwind: "$product.identifications",
       },
-
+      {
+        $sort: {
+          idCertificate: -1,
+        },
+      },
       {
         $project: {
           _id: 0,
@@ -188,11 +192,6 @@ export async function findCertificates(
       },
       {
         $limit: isShorted ? 25 : 50,
-      },
-      {
-        $sort: {
-          idCertificate: -1,
-        },
       },
     ])
     .allowDiskUse(true)
