@@ -1,7 +1,10 @@
 import { DeclarationFilters } from "../@types";
 import { declarationDetailsModel } from "../models";
 
-export async function findDeclarations(filters: DeclarationFilters | null) {
+export async function findDeclarations(
+  filters: DeclarationFilters | null,
+  isShorted?: boolean
+) {
   const filtersQuery: any = {};
 
   if (filters != null) {
@@ -104,7 +107,6 @@ export async function findDeclarations(filters: DeclarationFilters | null) {
       validationFormNormDocNum
         ? { $regex: validationFormNormDocNum }
         : undefined;
-
   }
   const skip = (filters != null ? filters.page ?? 0 : 0) * 50;
   console.log(filtersQuery);
@@ -131,7 +133,7 @@ export async function findDeclarations(filters: DeclarationFilters | null) {
         $project: {
           _id: 0,
           idDeclaration: 1,
-          Number: 1,
+          number: 1,
           idStatus: 1,
           status: "$details.status",
           declRegDate: 1,
@@ -166,14 +168,13 @@ export async function findDeclarations(filters: DeclarationFilters | null) {
           "testingLabs.fullName": 1,
           "certificationAuthority.fullName": 1,
           "certificationAuthority.attestatRegNumber": 1,
-          
         },
       },
       {
         $skip: skip,
       },
       {
-        $limit: 50, // Получить 50 документов
+        $limit: isShorted ? 25 : 50, // Получить 50 документов
       },
       {
         $sort: {

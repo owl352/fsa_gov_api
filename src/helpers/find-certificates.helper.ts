@@ -1,7 +1,10 @@
 import { CertificatesFilters } from "../@types";
 import { certificateDetailsModel } from "../models";
 
-export async function findCertificates(filters: CertificatesFilters | null) {
+export async function findCertificates(
+  filters: CertificatesFilters | null,
+  isShorted?: boolean
+) {
   const filtersQuery: any = {};
 
   if (filters != null) {
@@ -184,7 +187,7 @@ export async function findCertificates(filters: CertificatesFilters | null) {
         $skip: skip,
       },
       {
-        $limit: 50,
+        $limit: isShorted ? 25 : 50,
       },
       {
         $sort: {
