@@ -62,7 +62,12 @@ export async function findCertificates(
       ? { $regex: manufacturerFullName }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
-      ? { $regex: productFullName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${productFullName} \\B`, "gi"),
+            new RegExp(`\\B ${productFullName},\\B`, "gi"),
+          ],
+        } //{$in:[/\B Кабель,\B/gi,/\B Кабель \B/gi]}
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
       ? { $regex: testingLabsRegNumber }

@@ -59,7 +59,12 @@ export async function findDeclarations(
       ? { $regex: manufacturerFullName }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
-      ? { $regex: productFullName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${productFullName} \\B`, "gi"),
+            new RegExp(`\\B ${productFullName},\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? { $regex: testingLabsFullName }
