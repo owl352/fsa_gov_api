@@ -36,16 +36,12 @@ export async function findDeclarations(
       validationFormNormDocNum,
     } = filters;
 
-    filtersQuery.declRegDate = declRegDate
-      ? { $regex: declRegDate }
-      : undefined;
-    filtersQuery.declEndDate = declEndDate
-      ? { $regex: declEndDate }
-      : undefined;
+    filtersQuery.declRegDate = declRegDate ? declRegDate : undefined;
+    filtersQuery.declEndDate = declEndDate ? declEndDate : undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
     filtersQuery.idDeclaration = idDeclaration || undefined;
     filtersQuery.idStatus = idStatus || undefined;
-    filtersQuery["applicant.inn"] = inn ? { $regex: inn } : undefined;
+    filtersQuery["applicant.inn"] = inn ? inn : undefined;
     filtersQuery["applicant.fullName"] = applicantFullName
       ? { $regex: applicantFullName }
       : undefined;
@@ -114,7 +110,11 @@ export async function findDeclarations(
         : undefined;
   }
   const skip = (filters != null ? filters.page ?? 0 : 0) * 50;
-  console.log(filtersQuery);
+  console.log(
+    Object.fromEntries(
+      Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+    )
+  );
 
   const out = await declarationDetailsModel
     .aggregate([
@@ -134,11 +134,7 @@ export async function findDeclarations(
       {
         $unwind: "$product.identifications",
       },
-      {
-        $sort: {
-          idDeclaration: -1,
-        },
-      },
+
       {
         $project: {
           _id: 0,
@@ -185,6 +181,11 @@ export async function findDeclarations(
       },
       {
         $limit: isShorted ? 25 : 50, // Получить 50 документов
+      },
+      {
+        $sort: {
+          idDeclaration: -1,
+        },
       },
     ])
     .allowDiskUse(true)

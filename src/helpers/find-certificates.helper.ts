@@ -40,15 +40,15 @@ export async function findCertificates(
     } = filters;
 
     filtersQuery.certRegDate = certRegDate
-      ? { $regex: certRegDate }
+      ? certRegDate
       : undefined;
     filtersQuery.certEndDate = certEndDate
-      ? { $regex: certEndDate }
+      ? certEndDate
       : undefined;
     filtersQuery.idCertificate = idCertificate ?? undefined;
     filtersQuery.idStatus = idStatus ?? undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
-    filtersQuery["applicant.inn"] = inn ? { $regex: inn } : undefined;
+    filtersQuery["applicant.inn"] = inn ? inn : undefined;
     filtersQuery["applicant.shortName"] = applicantShortName
       ? { $regex: applicantShortName }
       : undefined;
@@ -122,7 +122,11 @@ export async function findCertificates(
       ? { $regex: techregProductListEEU }
       : undefined;
   }
-  console.log(filtersQuery);
+  console.log(
+    Object.fromEntries(
+      Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+    )
+  );
   const skip = (filters != null ? filters.page ?? 0 : 0) * 50;
 
   const out = await certificateDetailsModel
@@ -143,11 +147,7 @@ export async function findCertificates(
       {
         $unwind: "$product.identifications",
       },
-      {
-        $sort: {
-          idCertificate: -1,
-        },
-      },
+
       {
         $project: {
           _id: 0,
@@ -198,8 +198,12 @@ export async function findCertificates(
       {
         $limit: isShorted ? 25 : 50,
       },
+      {
+        $sort: {
+          idCertificate: -1,
+        },
+      },
     ])
-    .allowDiskUse(true)
     .exec();
 
   return out;
