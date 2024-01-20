@@ -39,12 +39,8 @@ export async function findCertificates(
       page,
     } = filters;
 
-    filtersQuery.certRegDate = certRegDate
-      ? certRegDate
-      : undefined;
-    filtersQuery.certEndDate = certEndDate
-      ? certEndDate
-      : undefined;
+    filtersQuery.certRegDate = certRegDate ? certRegDate : undefined;
+    filtersQuery.certEndDate = certEndDate ? certEndDate : undefined;
     filtersQuery.idCertificate = idCertificate ?? undefined;
     filtersQuery.idStatus = idStatus ?? undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
@@ -140,6 +136,11 @@ export async function findCertificates(
         },
       },
       {
+        $sort: {
+          idCertificate: -1,
+        },
+      },
+      {
         $match: Object.fromEntries(
           Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
         ),
@@ -197,11 +198,6 @@ export async function findCertificates(
       },
       {
         $limit: isShorted ? 25 : 50,
-      },
-      {
-        $sort: {
-          idCertificate: -1,
-        },
       },
     ])
     .exec();

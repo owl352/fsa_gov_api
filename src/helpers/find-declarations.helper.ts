@@ -127,6 +127,11 @@ export async function findDeclarations(
         },
       },
       {
+        $sort: {
+          idDeclaration: -1,
+        },
+      },
+      {
         $match: Object.fromEntries(
           Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
         ),
@@ -181,11 +186,6 @@ export async function findDeclarations(
       },
       {
         $limit: isShorted ? 25 : 50, // Получить 50 документов
-      },
-      {
-        $sort: {
-          idDeclaration: -1,
-        },
       },
     ])
     .allowDiskUse(true)
