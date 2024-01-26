@@ -45,21 +45,29 @@ export async function findCertificates(
     filtersQuery.idStatus = idStatus ?? undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
     filtersQuery["applicant.inn"] = inn ? inn : undefined;
-    filtersQuery["applicant.shortName"] = applicantShortName
-      ? {
-          $in: [
-            new RegExp(`\\B ${applicantShortName} \\B`, "gi"),
-            new RegExp(`\\B ${applicantShortName},\\B`, "gi"),
-            new RegExp(`\\B"${applicantShortName}"\\B`, "gi"),
-          ],
-        }
-      : undefined;
     filtersQuery["applicant.fullName"] = applicantFullName
       ? {
           $in: [
             new RegExp(`\\B ${applicantFullName} \\B`, "gi"),
             new RegExp(`\\B ${applicantFullName},\\B`, "gi"),
             new RegExp(`\\B"${applicantFullName}"\\B`, "gi"),
+            new RegExp(`\\B ${applicantFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantFullName} \\B`, "gi"),
+            new RegExp(`\\B${applicantFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantFullName}\\B`, "gi"),
+          ],
+        }
+      : undefined;
+    filtersQuery["applicant.shortName"] = applicantShortName
+      ? {
+          $in: [
+            new RegExp(`\\B ${applicantShortName} \\B`, "gi"),
+            new RegExp(`\\B ${applicantShortName},\\B`, "gi"),
+            new RegExp(`\\B"${applicantShortName}"\\B`, "gi"),
+            new RegExp(`\\B ${applicantShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantShortName} \\B`, "gi"),
+            new RegExp(`\\B${applicantShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantShortName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -69,6 +77,10 @@ export async function findCertificates(
             new RegExp(`\\B ${manufacturerShortName} \\B`, "gi"),
             new RegExp(`\\B ${manufacturerShortName},\\B`, "gi"),
             new RegExp(`\\B"${manufacturerShortName}"\\B`, "gi"),
+            new RegExp(`\\B ${manufacturerShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerShortName} \\B`, "gi"),
+            new RegExp(`\\B${manufacturerShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerShortName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -78,6 +90,10 @@ export async function findCertificates(
             new RegExp(`\\B ${manufacturerFullName} \\B`, "gi"),
             new RegExp(`\\B ${manufacturerFullName},\\B`, "gi"),
             new RegExp(`\\B"${manufacturerFullName}"\\B`, "gi"),
+            new RegExp(`\\B ${manufacturerFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerFullName} \\B`, "gi"),
+            new RegExp(`\\B${manufacturerFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerFullName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -86,8 +102,13 @@ export async function findCertificates(
           $in: [
             new RegExp(`\\B ${productFullName} \\B`, "gi"),
             new RegExp(`\\B ${productFullName},\\B`, "gi"),
+            new RegExp(`\\B"${productFullName}"\\B`, "gi"),
+            new RegExp(`\\B ${productFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${productFullName} \\B`, "gi"),
+            new RegExp(`\\B${productFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${productFullName}\\B`, "gi"),
           ],
-        } //{$in:[/\B Кабель,\B/gi,/\B Кабель \B/gi]}
+        }
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
       ? { $regex: testingLabsRegNumber }

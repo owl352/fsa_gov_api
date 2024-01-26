@@ -49,6 +49,10 @@ export async function findDeclarations(
             new RegExp(`\\B ${applicantFullName} \\B`, "gi"),
             new RegExp(`\\B ${applicantFullName},\\B`, "gi"),
             new RegExp(`\\B"${applicantFullName}"\\B`, "gi"),
+            new RegExp(`\\B ${applicantFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantFullName} \\B`, "gi"),
+            new RegExp(`\\B${applicantFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantFullName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -58,6 +62,10 @@ export async function findDeclarations(
             new RegExp(`\\B ${applicantShortName} \\B`, "gi"),
             new RegExp(`\\B ${applicantShortName},\\B`, "gi"),
             new RegExp(`\\B"${applicantShortName}"\\B`, "gi"),
+            new RegExp(`\\B ${applicantShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantShortName} \\B`, "gi"),
+            new RegExp(`\\B${applicantShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${applicantShortName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -67,6 +75,10 @@ export async function findDeclarations(
             new RegExp(`\\B ${manufacturerShortName} \\B`, "gi"),
             new RegExp(`\\B ${manufacturerShortName},\\B`, "gi"),
             new RegExp(`\\B"${manufacturerShortName}"\\B`, "gi"),
+            new RegExp(`\\B ${manufacturerShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerShortName} \\B`, "gi"),
+            new RegExp(`\\B${manufacturerShortName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerShortName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -76,6 +88,10 @@ export async function findDeclarations(
             new RegExp(`\\B ${manufacturerFullName} \\B`, "gi"),
             new RegExp(`\\B ${manufacturerFullName},\\B`, "gi"),
             new RegExp(`\\B"${manufacturerFullName}"\\B`, "gi"),
+            new RegExp(`\\B ${manufacturerFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerFullName} \\B`, "gi"),
+            new RegExp(`\\B${manufacturerFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerFullName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -84,6 +100,11 @@ export async function findDeclarations(
           $in: [
             new RegExp(`\\B ${productFullName} \\B`, "gi"),
             new RegExp(`\\B ${productFullName},\\B`, "gi"),
+            new RegExp(`\\B"${productFullName}"\\B`, "gi"),
+            new RegExp(`\\B ${productFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${productFullName} \\B`, "gi"),
+            new RegExp(`\\B${productFullName}"\\B`, "gi"),
+            new RegExp(`\\B"${productFullName}\\B`, "gi"),
           ],
         }
       : undefined;
