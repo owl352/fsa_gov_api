@@ -32,6 +32,7 @@ export async function findDeclarations(
       fiasAddrobj,
       tnvedName,
       tnvedCode,
+      tnvedCodePart,
       validationFormNormDocName,
       validationFormNormDocNum,
     } = filters;
@@ -43,16 +44,40 @@ export async function findDeclarations(
     filtersQuery.idStatus = idStatus || undefined;
     filtersQuery["applicant.inn"] = inn ? inn : undefined;
     filtersQuery["applicant.fullName"] = applicantFullName
-      ? { $regex: applicantFullName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${applicantFullName} \\B`, "gi"),
+            new RegExp(`\\B ${applicantFullName},\\B`, "gi"),
+            new RegExp(`\\B"${applicantFullName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["applicant.shortName"] = applicantShortName
-      ? { $regex: applicantShortName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${applicantShortName} \\B`, "gi"),
+            new RegExp(`\\B ${applicantShortName},\\B`, "gi"),
+            new RegExp(`\\B"${applicantShortName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
-      ? { $regex: manufacturerShortName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${manufacturerShortName} \\B`, "gi"),
+            new RegExp(`\\B ${manufacturerShortName},\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerShortName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
-      ? { $regex: manufacturerFullName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${manufacturerFullName} \\B`, "gi"),
+            new RegExp(`\\B ${manufacturerFullName},\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerFullName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
       ? {
@@ -97,9 +122,12 @@ export async function findDeclarations(
     filtersQuery["details.tnved.name"] = tnvedName
       ? { $regex: tnvedName }
       : undefined;
-    filtersQuery["details.tnved.code"] = tnvedCode
-      ? { $regex: tnvedCode }
-      : undefined;
+    filtersQuery["details.tnved.code"] =
+      tnvedCodePart != undefined
+        ? { $regex: tnvedCodePart }
+        : tnvedCode
+        ? tnvedCode
+        : undefined;
     filtersQuery["details.validationFormNormDoc.name"] =
       validationFormNormDocName
         ? { $regex: validationFormNormDocName }

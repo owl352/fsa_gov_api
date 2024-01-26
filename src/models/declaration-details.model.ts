@@ -5,3 +5,5 @@ export const declarationDetailsModel = mongoose.model(
   "declarationDetails",
   declarationDetailsSchema
 );
+
+

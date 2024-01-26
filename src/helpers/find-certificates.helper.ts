@@ -46,16 +46,40 @@ export async function findCertificates(
     filtersQuery.number = number ? { $regex: number } : undefined;
     filtersQuery["applicant.inn"] = inn ? inn : undefined;
     filtersQuery["applicant.shortName"] = applicantShortName
-      ? { $regex: applicantShortName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${applicantShortName} \\B`, "gi"),
+            new RegExp(`\\B ${applicantShortName},\\B`, "gi"),
+            new RegExp(`\\B"${applicantShortName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["applicant.fullName"] = applicantFullName
-      ? { $regex: applicantFullName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${applicantFullName} \\B`, "gi"),
+            new RegExp(`\\B ${applicantFullName},\\B`, "gi"),
+            new RegExp(`\\B"${applicantFullName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
-      ? { $regex: manufacturerShortName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${manufacturerShortName} \\B`, "gi"),
+            new RegExp(`\\B ${manufacturerShortName},\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerShortName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
-      ? { $regex: manufacturerFullName }
+      ? {
+          $in: [
+            new RegExp(`\\B ${manufacturerFullName} \\B`, "gi"),
+            new RegExp(`\\B ${manufacturerFullName},\\B`, "gi"),
+            new RegExp(`\\B"${manufacturerFullName}"\\B`, "gi"),
+          ],
+        }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
       ? {
@@ -101,8 +125,8 @@ export async function findCertificates(
       ? { $regex: tnvedName }
       : undefined;
     filtersQuery["details.tnved.code"] =
-      tnvedCode && tnvedCodePart === "1"
-        ? { $regex: tnvedCode }
+      tnvedCodePart != undefined
+        ? { $regex: tnvedCodePart }
         : tnvedCode
         ? tnvedCode
         : undefined;
@@ -118,11 +142,7 @@ export async function findCertificates(
       ? { $regex: techregProductListEEU }
       : undefined;
   }
-  console.log(
-    Object.fromEntries(
-      Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-    )
-  );
+
   const skip = (filters != null ? filters.page ?? 0 : 0) * 50;
 
   const out = await certificateDetailsModel
@@ -200,7 +220,8 @@ export async function findCertificates(
         $limit: isShorted ? 25 : 50,
       },
     ])
+    .allowDiskUse(true)
     .exec();
-
+  console.log("out");
   return out;
 }

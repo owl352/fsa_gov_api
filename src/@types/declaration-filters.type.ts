@@ -17,6 +17,7 @@ export type DeclarationFilters = {
   status?: string | null;
   tnvedName?: string | null;
   tnvedCode?: string | null;
+  tnvedCodePart?: string | null;
   validationFormNormDocName?: string | null;
   validationFormNormDocNum?: string | null;
   validationObjectType?: string | null;
