@@ -9,6 +9,7 @@ import { findCertificateDetails } from "./find-certificate-details.helper";
 import { RateLimiterMongo } from "rate-limiter-flexible";
 import { findDeclarationDecode } from "./find-declaration-decode.helper";
 import { findCertificateDecode } from "./find-certificate-decode.helper";
+import { findCertificatesBeta } from "./find-certificate.beta.helper";
 
 export function initExpress(mongo: any) {
   const rateLimiterMongo = new RateLimiterMongo({
@@ -72,6 +73,15 @@ export function initExpress(mongo: any) {
     try {
       const filters: CertificatesFilters | null = req.body || null;
       res.send(await findCertificates(filters));
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  app.post("/certificates_dev", async (req: Request, res: Response) => {
+    try {
+      const filters: CertificatesFilters | null = req.body || null;
+      res.send(await findCertificatesBeta(filters));
     } catch (error) {
       handleError(res, error);
     }

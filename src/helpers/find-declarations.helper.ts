@@ -53,6 +53,7 @@ export async function findDeclarations(
             new RegExp(`\\B"${applicantFullName} \\B`, "gi"),
             new RegExp(`\\B${applicantFullName}"\\B`, "gi"),
             new RegExp(`\\B"${applicantFullName}\\B`, "gi"),
+            // new RegExp(`\\B${applicantFullName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -66,6 +67,7 @@ export async function findDeclarations(
             new RegExp(`\\B"${applicantShortName} \\B`, "gi"),
             new RegExp(`\\B${applicantShortName}"\\B`, "gi"),
             new RegExp(`\\B"${applicantShortName}\\B`, "gi"),
+            new RegExp(`\\B${applicantShortName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -79,21 +81,12 @@ export async function findDeclarations(
             new RegExp(`\\B"${manufacturerShortName} \\B`, "gi"),
             new RegExp(`\\B${manufacturerShortName}"\\B`, "gi"),
             new RegExp(`\\B"${manufacturerShortName}\\B`, "gi"),
+            // new RegExp(`\\B${manufacturerShortName}\\B`, "gi"),
           ],
         }
       : undefined;
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
-      ? {
-          $in: [
-            new RegExp(`\\B ${manufacturerFullName} \\B`, "gi"),
-            new RegExp(`\\B ${manufacturerFullName},\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerFullName}"\\B`, "gi"),
-            new RegExp(`\\B ${manufacturerFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerFullName} \\B`, "gi"),
-            new RegExp(`\\B${manufacturerFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerFullName}\\B`, "gi"),
-          ],
-        }
+      ? productFullName
       : undefined;
     filtersQuery["product.fullName"] = productFullName
       ? {
@@ -105,6 +98,7 @@ export async function findDeclarations(
             new RegExp(`\\B"${productFullName} \\B`, "gi"),
             new RegExp(`\\B${productFullName}"\\B`, "gi"),
             new RegExp(`\\B"${productFullName}\\B`, "gi"),
+            // new RegExp(`\\B${productFullName}\\B`, "gi"),
           ],
         }
       : undefined;
@@ -145,7 +139,7 @@ export async function findDeclarations(
       : undefined;
     filtersQuery["details.tnved.code"] =
       tnvedCodePart != undefined
-        ? { $regex: tnvedCodePart }
+        ? { $regex: `/^${tnvedCodePart}/` }
         : tnvedCode
         ? tnvedCode
         : undefined;
