@@ -46,72 +46,42 @@ export async function findCertificates(
     filtersQuery["applicant.inn"] = inn || undefined;
     filtersQuery["applicant.fullName"] = applicantFullName
       ? {
-          $in: [
-            new RegExp(`\\B ${applicantFullName} \\B`, "gi"),
-            new RegExp(`\\B ${applicantFullName},\\B`, "gi"),
-            new RegExp(`\\B"${applicantFullName}"\\B`, "gi"),
-            new RegExp(`\\B ${applicantFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${applicantFullName} \\B`, "gi"),
-            new RegExp(`\\B${applicantFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${applicantFullName}\\B`, "gi"),
-            // new RegExp(`\\B${applicantFullName}\\B`, "gi"),
-          ],
+          $regex: new RegExp(
+            `(?<!\w)(?<!\s)${applicantFullName}(?!\w)(?<!\s)|(?<!\w\S)${applicantFullName}(?!\w|\S)`,
+            "i"
+          ),
         }
       : undefined;
     filtersQuery["applicant.shortName"] = applicantShortName
       ? {
-          $in: [
-            new RegExp(`\\B ${applicantShortName} \\B`, "gi"),
-            new RegExp(`\\B ${applicantShortName},\\B`, "gi"),
-            new RegExp(`\\B"${applicantShortName}"\\B`, "gi"),
-            new RegExp(`\\B ${applicantShortName}"\\B`, "gi"),
-            new RegExp(`\\B"${applicantShortName} \\B`, "gi"),
-            new RegExp(`\\B${applicantShortName}"\\B`, "gi"),
-            new RegExp(`\\B"${applicantShortName}\\B`, "gi"),
-            // new RegExp(`\\B${applicantShortName}\\B`, "gi"),
-          ],
+          $regex: new RegExp(
+            `(?<!\w)(?<!\s)${applicantShortName}(?!\w)(?<!\s)|(?<!\w\S)${applicantShortName}(?!\w|\S)`,
+            "i"
+          ),
         }
       : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
-          $in: [
-            new RegExp(`\\B ${manufacturerShortName} \\B`, "gi"),
-            new RegExp(`\\B ${manufacturerShortName},\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerShortName}"\\B`, "gi"),
-            new RegExp(`\\B ${manufacturerShortName}"\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerShortName} \\B`, "gi"),
-            new RegExp(`\\B${manufacturerShortName}"\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerShortName}\\B`, "gi"),
-            // new RegExp(`\\B${manufacturerShortName}\\B`, "gi"),
-          ],
+          $regex: new RegExp(
+            `(?<!\w)(?<!\s)${manufacturerShortName}(?!\w)(?<!\s)|(?<!\w\S)${manufacturerShortName}(?!\w|\S)`,
+            "i"
+          ),
         }
       : undefined;
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
-          $in: [
-            new RegExp(`\\B ${manufacturerFullName} \\B`, "gi"),
-            new RegExp(`\\B ${manufacturerFullName},\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerFullName}"\\B`, "gi"),
-            new RegExp(`\\B ${manufacturerFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerFullName} \\B`, "gi"),
-            new RegExp(`\\B${manufacturerFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${manufacturerFullName}\\B`, "gi"),
-            // new RegExp(`\\B${manufacturerFullName}\\B`, "gi"),
-          ],
+          $regex: new RegExp(
+            `(?<!\w)(?<!\s)${manufacturerFullName}(?!\w)(?<!\s)|(?<!\w\S)${manufacturerFullName}(?!\w|\S)`,
+            "i"
+          ),
         }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
       ? {
-          $in: [
-            new RegExp(`\\B ${productFullName} \\B`, "gi"),
-            new RegExp(`\\B ${productFullName},\\B`, "gi"),
-            new RegExp(`\\B"${productFullName}"\\B`, "gi"),
-            new RegExp(`\\B ${productFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${productFullName} \\B`, "gi"),
-            new RegExp(`\\B${productFullName}"\\B`, "gi"),
-            new RegExp(`\\B"${productFullName}\\B`, "gi"),
-            // new RegExp(`\\B${productFullName}\\B`, "gi"),
-          ],
+          $regex: new RegExp(
+            `(?<!\w)(?<!\s)${productFullName}(?!\w)(?<!\s)|(?<!\w\S)${productFullName}(?!\w|\S)`,
+            "i"
+          ),
         }
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber

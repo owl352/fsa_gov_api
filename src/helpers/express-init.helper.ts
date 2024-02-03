@@ -69,16 +69,16 @@ export function initExpress(mongo: any) {
     }
   });
 
-  app.post("/certificates", async (req: Request, res: Response) => {
-    try {
-      const filters: CertificatesFilters | null = req.body || null;
-      res.send(await findCertificates(filters));
-    } catch (error) {
-      handleError(res, error);
-    }
-  });
+  // app.post("/certificates", async (req: Request, res: Response) => {
+  //   try {
+  //     const filters: CertificatesFilters | null = req.body || null;
+  //     res.send(await findCertificates(filters));
+  //   } catch (error) {
+  //     handleError(res, error);
+  //   }
+  // });
 
-  app.post("/certificates_dev", async (req: Request, res: Response) => {
+  app.post("/certificates", async (req: Request, res: Response) => {
     try {
       const filters: CertificatesFilters | null = req.body || null;
       res.send(await findCertificatesBeta(filters));

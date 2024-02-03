@@ -39,3 +39,7 @@ export const newCertificateDetailsSchema = new Schema({
   "certificationAuthority.fullName": { type: Schema.Types.Mixed },
   "certificationAuthority.attestatRegNumber": { type: Schema.Types.Mixed },
 });
+newCertificateDetailsSchema.index({
+  "applicant.fullName": "text",
+  "applicant.shortName": "text",
+});
