@@ -1,27 +1,27 @@
-import { CertificatesFilters } from "../@types";
-import { certificateSearchModel } from "../models";
+import { DeclarationFilters } from "../@types";
+import { declarationSearchModel } from "../models";
 
-export async function findCertificatesBeta(
-  filters: CertificatesFilters | null,
+export async function findDeclarationsBeta(
+  filters: DeclarationFilters | null,
   isShorted?: boolean
 ) {
   const filtersQuery: any = {};
 
   if (filters != null) {
     const {
-      certRegDate,
-      certEndDate,
-      idCertificate,
-      idStatus,
+      declRegDate,
+      declEndDate,
       number,
+      idDeclaration,
+      idStatus,
       inn,
-      applicantShortName,
       applicantFullName,
+      applicantShortName,
       manufacturerShortName,
       manufacturerFullName,
       productFullName,
-      testingLabsRegNumber,
       testingLabsFullName,
+      testingLabsRegNumber,
       certificationAuthorityFullName,
       certificationAuthorityAttestatRegNumber,
       validationObjectType,
@@ -35,29 +35,14 @@ export async function findCertificatesBeta(
       tnvedCodePart,
       validationFormNormDocName,
       validationFormNormDocNum,
-      techregProductListEEU,
     } = filters;
-    console.log(
-      new RegExp(
-        `((?!\W)|^)${filters.applicantShortName}(?!\w)(?!\W\S)|(?!\w\S)${filters.applicantShortName}(?!\w|\S)`,
-        "i"
-      )
-    );
-    filtersQuery.certRegDate = certRegDate || undefined;
-    filtersQuery.certEndDate = certEndDate || undefined;
-    filtersQuery.idCertificate = idCertificate || undefined;
+
+    filtersQuery.declRegDate = declRegDate || undefined;
+    filtersQuery.declEndDate = declEndDate || undefined;
+    filtersQuery.idDeclaration = idDeclaration || undefined;
     filtersQuery.idStatus = idStatus || undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
     filtersQuery["applicant.inn"] = inn || undefined;
-    // filtersQuery["applicant.fullName"] = applicantFullName
-    //   ? {
-    //       $text: { $search: `"${applicantFullName}"` },
-    //       // $regex: new RegExp(
-    //       //   `(?<!\\w)(?<!\\s)${applicantFullName}(?!\\w)(?<!\\s)|(?<!\\w\\S)${applicantFullName}(?!\\w|\\S)`,
-    //       //   "i"
-    //       // ),
-    //     }
-    //   : undefined;
     filtersQuery["$text"] =
       filters.applicantShortName || filters.applicantFullName
         ? {
@@ -141,9 +126,6 @@ export async function findCertificatesBeta(
     filtersQuery["conformityDocType.name"] = conformityDocType
       ? { $regex: conformityDocType }
       : undefined;
-    filtersQuery["techregProductListEEU.name"] = techregProductListEEU
-      ? { $regex: techregProductListEEU }
-      : undefined;
     filtersQuery["fiasAddrobj.offname"] = fiasAddrobj
       ? { $regex: fiasAddrobj }
       : undefined;
@@ -152,61 +134,18 @@ export async function findCertificatesBeta(
   const skip = (filters?.page || 0) * 50;
 
   console.log(filtersQuery);
-  const out = await certificateSearchModel
+  const out = await declarationSearchModel
     .find(
       Object.fromEntries(
         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
       )
     )
     .allowDiskUse(true)
-    .sort({ idCertificate: -1 })
+    .sort({ idDeclaration: -1 })
     .skip(skip)
     .limit(isShorted ? 25 : 50)
     .lean();
-  // .aggregate([
-  //   {
-  //     $sort: {
-  //       idCertificate: -1,
-  //     },
-  //   },
-  //   {
-  // $match: Object.fromEntries(
-  //   Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-  // ),
-  //   },
 
-  //   {
-  //     $project: {
-  //       _id: 0,
-  //       idCertificate: 1,
-  //       number: 1,
-  //       idStatus: 1,
-  //       status: 1,
-  //       certRegDate: 1,
-  //       certEndDate: 1,
-  //       applicant: 1,
-  //       manufacturer: 1,
-  //       contactType: 1,
-  //       applicantType: 1,
-  //       declarantType: 1,
-  //       oksm: 1,
-  //       product: 1,
-  //       idTechnicalReglaments: 1,
-  //       validationFormNormDocDecoded: 1,
-  //       testingLabs: 1,
-  //       certificationAuthority: 1,
-  //     },
-  //   },
-
-  //   {
-  //     $skip: skip,
-  //   },
-  //   {
-  //     $limit: isShorted ? 25 : 50,
-  //   },
-  // ])
-  // .allowDiskUse(true)
-  // .exec();
   console.log("out");
   return out;
 }

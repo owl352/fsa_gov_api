@@ -10,6 +10,7 @@ import { RateLimiterMongo } from "rate-limiter-flexible";
 import { findDeclarationDecode } from "./find-declaration-decode.helper";
 import { findCertificateDecode } from "./find-certificate-decode.helper";
 import { findCertificatesBeta } from "./find-certificate.beta.helper";
+import { findDeclarationsBeta } from "./find-declaration.beta.helper";
 
 export function initExpress(mongo: any) {
   const rateLimiterMongo = new RateLimiterMongo({
@@ -50,7 +51,7 @@ export function initExpress(mongo: any) {
   app.post("/declarations", async (req: Request, res: Response) => {
     try {
       const filters: DeclarationFilters | null = req.body || null;
-      res.send(await findDeclarations(filters));
+      res.send(await findDeclarationsBeta(filters));
     } catch (error) {
       handleError(res, error);
     }

@@ -8,5 +8,4 @@ async function main() {
   const mongo = await mongoConnect();
   initExpress(mongo);
 }
-
 main();

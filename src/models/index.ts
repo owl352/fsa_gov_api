@@ -6,3 +6,5 @@ export * from "./bad-certificate.model";
 export * from "./certificate-details.model";
 export * from "./certificate-decode.model";
 export * from "./declaration-decode.model";
+export * from "./certificate-search.model";
+export * from "./declaration-search.model";

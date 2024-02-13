@@ -6,3 +6,4 @@ export * from "./certificate-details.schema";
 export * from "./bad-certificates.schema";
 export * from "./certificate-decode.schema";
 export * from "./declaration-decode.schema";
+export * from "./declaration-search.schema";
