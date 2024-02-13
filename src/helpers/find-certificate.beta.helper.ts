@@ -58,13 +58,14 @@ export async function findCertificatesBeta(
     //       // ),
     //     }
     //   : undefined;
-    filtersQuery["$text"] = filters.applicantShortName
-      ? {
-          $search: `\"${applicantShortName ?? ""}\" \"${
-            applicantFullName ?? ""
-          }\"`,
-        }
-      : undefined;
+    filtersQuery["$text"] =
+      filters.applicantShortName || filters.applicantFullName
+        ? {
+            $search: `\"${applicantShortName ?? ""}\" \"${
+              applicantFullName ?? ""
+            }\"`,
+          }
+        : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex: new RegExp(
