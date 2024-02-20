@@ -21,4 +21,5 @@ export const declarationSearchSchema = new Schema({
   validationObjectType: { type: Schema.Types.Mixed },
   conformityDocType: { type: Schema.Types.Mixed },
   fiasAddrobj: { type: Schema.Types.Mixed },
+  scheme: { type: Schema.Types.Mixed },
 });
