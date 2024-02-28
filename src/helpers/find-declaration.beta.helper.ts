@@ -104,13 +104,13 @@ export async function findDeclarationsBeta(
       ? { $regex: contactType }
       : undefined;
     filtersQuery["oksm.shortName"] = oksm ? { $regex: oksm } : undefined;
-    filtersQuery["product.tnveds"] = tnvedName
-      ? { $elemMatch: { $elemMatch: { name: { $regex: tnvedName } } } }
+    filtersQuery["product.tnveds.name"] = tnvedName
+      ? { $regex: tnvedName }
       : undefined;
-    filtersQuery["product.tnveds"] = tnvedCodePart
-      ? { $elemMatch: { $elemMatch: { code: { $regex: tnvedCodePart } } } }
+    filtersQuery["product.tnveds.code"] = tnvedCodePart
+      ? { $regex: tnvedCodePart }
       : tnvedCode
-      ? { $elemMatch: { $elemMatch: { code: tnvedCode } } }
+      ? tnvedCode
       : undefined;
     filtersQuery["validationFormNormDocDecoded.name"] =
       validationFormNormDocName
