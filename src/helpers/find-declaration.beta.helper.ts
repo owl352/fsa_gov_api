@@ -62,7 +62,7 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: new RegExp(
-            `(?<!\w)(?<!\s)${manufacturerFullName}(?!\w)(?<!\s)|(?<!\w\S)${manufacturerFullName}(?!\w|\S)`,
+            `((?![А-ЯA-z])|\s)${manufacturerFullName}((?![А-ЯA-z])|\s)`,
             "i"
           ),
         }
