@@ -69,7 +69,7 @@ export async function findCertificatesBeta(
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex: new RegExp(
-            `(?<!\w)(?<!\s)${manufacturerShortName}(?!\w)(?<!\s)|(?<!\w\S)${manufacturerShortName}(?!\w|\S)`,
+            `((?![А-ЯA-z])|\\s)${manufacturerShortName}((?![А-ЯA-z])|\\s)`,
             "i"
           ),
         }
@@ -77,7 +77,7 @@ export async function findCertificatesBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: new RegExp(
-            `(?<!\w)(?<!\s)${manufacturerFullName}(?!\w)(?<!\s)|(?<!\w\S)${manufacturerFullName}(?!\w|\S)`,
+            `((?![А-ЯA-z])|\\s)${manufacturerFullName}((?![А-ЯA-z])|\\s)`,
             "i"
           ),
         }
@@ -85,7 +85,7 @@ export async function findCertificatesBeta(
     filtersQuery["product.fullName"] = productFullName
       ? {
           $regex: new RegExp(
-            `(?<!\w)(?<!\s)${productFullName}(?!\w)(?<!\s)|(?<!\w\S)${productFullName}(?!\w|\S)`,
+            `((?![А-ЯA-z])|\\s)${productFullName}((?![А-ЯA-z])|\\s)`,
             "i"
           ),
         }
@@ -96,7 +96,7 @@ export async function findCertificatesBeta(
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
           $regex: new RegExp(
-            `(?:^|\\W)${testingLabsFullName}(?!\\w|[А-я0-9A-z])`,
+            `((?![А-ЯA-z])|\\s)${testingLabsFullName}((?![А-ЯA-z])|\\s)`,
             "i"
           ),
         }
@@ -105,7 +105,7 @@ export async function findCertificatesBeta(
       certificationAuthorityFullName
         ? {
             $regex: new RegExp(
-              `(?:^|\\W)${certificationAuthorityFullName}(?!\\w|[А-я0-9A-z])`,
+              `((?![А-ЯA-z])|\\s)${certificationAuthorityFullName}((?![А-ЯA-z])|\\s)`,
               "i"
             ),
           }
@@ -158,11 +158,11 @@ export async function findCertificatesBeta(
         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
       )
     )
-    .allowDiskUse(true)
-    .sort({ idCertificate: -1 })
     .skip(skip)
     .limit(isShorted ? 25 : 50)
     .lean();
+    // .allowDiskUse(true)
+    // .sort({ idCertificate: -1 })
   // .aggregate([
   //   {
   //     $sort: {

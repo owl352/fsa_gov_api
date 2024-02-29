@@ -5,7 +5,7 @@ export const declarationSearchSchema = new Schema({
   idDeclaration: { type: Schema.Types.Mixed },
   idTechnicalReglaments: { type: Schema.Types.Mixed },
   idStatus: { type: Schema.Types.Mixed },
-  number: { type: Schema.Types.Mixed },
+  number: { type: Schema.Types.Mixed, index:true },
   declRegDate: { type: Schema.Types.Mixed },
   declEndDate: { type: Schema.Types.Mixed },
   applicant: { type: Schema.Types.Mixed },
