@@ -54,7 +54,7 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex: new RegExp(
-            `((?![А-ЯA-z])|\\s)${manufacturerShortName}((?![А-ЯA-z])|\\s)`,
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)'+manufacturerShortName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)',
             "i"
           ),
         }
@@ -62,7 +62,7 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: new RegExp(
-            `((?![А-ЯA-z])|\\s)${manufacturerFullName}((?![А-ЯA-z])|\\s)`,
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)'+manufacturerFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)',
             "i"
           ),
         }
@@ -70,7 +70,7 @@ export async function findDeclarationsBeta(
     filtersQuery["product.fullName"] = productFullName
       ? {
           $regex: new RegExp(
-            `((?![А-ЯA-z])|\\s)${productFullName}((?![А-ЯA-z])|\\s)`,
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)'+productFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)',
             "i"
           ),
         }
@@ -81,7 +81,7 @@ export async function findDeclarationsBeta(
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
           $regex: new RegExp(
-            `((?![А-ЯA-z])|\\s)${testingLabsFullName}((?![А-ЯA-z])|\\s)`,
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)'+testingLabsFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)',
             "i"
           ),
         }
@@ -90,7 +90,7 @@ export async function findDeclarationsBeta(
       certificationAuthorityFullName
         ? {
             $regex: new RegExp(
-              `((?![А-ЯA-z])|\\s)${certificationAuthorityFullName}((?![А-ЯA-z])|\\s)`,
+                '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)'+certificationAuthorityFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s)',
               "i"
             ),
           }
