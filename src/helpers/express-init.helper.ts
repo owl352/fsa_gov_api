@@ -110,8 +110,8 @@ export function initExpress(mongo: any) {
       const page = req.body.page ?? 0;
 
       const data =await Promise.all([
-        findDeclarations({ ...declarationFilters, page },true),
-        findCertificates({ ...certificateFilters, page },true),
+        findDeclarationsBeta({ ...declarationFilters, page },true),
+        findCertificatesBeta({ ...certificateFilters, page },true),
       ]);
 
       res.send(data);
