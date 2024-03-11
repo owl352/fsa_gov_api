@@ -54,7 +54,9 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)'+manufacturerShortName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+              manufacturerShortName +
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
             "i"
           ),
         }
@@ -62,7 +64,9 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)'+manufacturerFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+              manufacturerFullName +
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
             "i"
           ),
         }
@@ -70,7 +74,9 @@ export async function findDeclarationsBeta(
     filtersQuery["product.fullName"] = productFullName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)'+productFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+              productFullName +
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
             "i"
           ),
         }
@@ -81,7 +87,9 @@ export async function findDeclarationsBeta(
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)'+testingLabsFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+              testingLabsFullName +
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
             "i"
           ),
         }
@@ -90,7 +98,9 @@ export async function findDeclarationsBeta(
       certificationAuthorityFullName
         ? {
             $regex: new RegExp(
-                '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)'+certificationAuthorityFullName+'(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+                certificationAuthorityFullName +
+                '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
               "i"
             ),
           }
@@ -138,13 +148,16 @@ export async function findDeclarationsBeta(
     .find(
       Object.fromEntries(
         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-      )
+      ),
+      null,
+      { sort: { idDeclaration: -1 } }
     )
     .skip(skip)
     .limit(isShorted ? 25 : 50)
+    // .sort({ declRegDate: -1, declEndDate:-1,idDeclaration:-1,idStatus:-1,number:-1})
     .lean();
+  console.log(JSON.stringify(out));
   // .allowDiskUse(false)
-  // .sort({ declRegDate: -1, number:-1 })
 
   console.log("out");
   return out;
