@@ -64,9 +64,9 @@ export async function findCertificatesBeta(
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
               manufacturerShortName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
             "i"
           ),
         }
@@ -74,9 +74,9 @@ export async function findCertificatesBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
               manufacturerFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
             "i"
           ),
         }
@@ -84,9 +84,9 @@ export async function findCertificatesBeta(
     filtersQuery["product.fullName"] = productFullName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
               productFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
             "i"
           ),
         }
@@ -97,9 +97,9 @@ export async function findCertificatesBeta(
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
           $regex: new RegExp(
-            '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
               testingLabsFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
             "i"
           ),
         }
@@ -108,9 +108,9 @@ export async function findCertificatesBeta(
       certificationAuthorityFullName
         ? {
             $regex: new RegExp(
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+              '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
                 certificationAuthorityFullName +
-                '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)',
+                '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
               "i"
             ),
           }
