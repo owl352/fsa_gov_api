@@ -144,21 +144,32 @@ export async function findDeclarationsBeta(
   const skip = (filters?.page || 0) * 50;
 
   console.log(filtersQuery);
-  const out = await declarationSearchModel
-    .find(
-      Object.fromEntries(
-        Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-      ),
-      null,
-      { sort: { idDeclaration: -1 } }
-    )
-    .skip(skip)
-    .limit(isShorted ? 25 : 50)
-    // .sort({ declRegDate: -1, declEndDate:-1,idDeclaration:-1,idStatus:-1,number:-1})
-    .lean();
-  console.log(JSON.stringify(out));
-  // .allowDiskUse(false)
+  if (filters?.number == undefined) {
+    const out = await declarationSearchModel
+      .find(
+        Object.fromEntries(
+          Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+        ),
+        null,
+        { sort: { idDeclaration: -1 } }
+      )
+      .skip(skip)
+      .limit(isShorted ? 25 : 50)
+      // .sort({ declRegDate: -1, declEndDate:-1,idDeclaration:-1,idStatus:-1,number:-1})
+      .lean();
+    // .allowDiskUse(false)
 
-  console.log("out");
-  return out;
+    console.log("out");
+    return out;
+  } else {
+    const out = await declarationSearchModel
+      .findOne(
+        Object.fromEntries(
+          Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+        )
+      )
+      .lean();
+    console.log("out");
+    return out;
+  }
 }

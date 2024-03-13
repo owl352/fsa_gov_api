@@ -44,15 +44,6 @@ export async function findCertificatesBeta(
     filtersQuery.idStatus = idStatus || undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
     filtersQuery["applicant.inn"] = inn || undefined;
-    // filtersQuery["applicant.fullName"] = applicantFullName
-    //   ? {
-    //       $text: { $search: `"${applicantFullName}"` },
-    //       // $regex: new RegExp(
-    //       //   `(?<!\\w)(?<!\\s)${applicantFullName}(?!\\w)(?<!\\s)|(?<!\\w\\S)${applicantFullName}(?!\\w|\\s|\\b)`,
-    //       //   "i"
-    //       // ),
-    //     }
-    //   : undefined;
     filtersQuery["$text"] =
       filters.applicantShortName || filters.applicantFullName
         ? {
@@ -157,63 +148,31 @@ export async function findCertificatesBeta(
   const skip = (filters?.page || 0) * 50;
 
   console.log(filtersQuery);
-  const out = await certificateSearchModel
-    .find(
-      Object.fromEntries(
-        Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-      ),
-      null,
-      { sort: { idCertificate: -1 } }
-    )
-    .skip(skip)
-    .limit(isShorted ? 25 : 50)
-    .lean();
-  // .allowDiskUse(true)
-  // .sort({ idCertificate: -1 })
-  // .aggregate([
-  //   {
-  //     $sort: {
-  //       idCertificate: -1,
-  //     },
-  //   },
-  //   {
-  // $match: Object.fromEntries(
-  //   Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-  // ),
-  //   },
+  if (filters?.number == undefined) {
+    const out = await certificateSearchModel
+      .find(
+        Object.fromEntries(
+          Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+        ),
+        null,
+        { sort: { idCertificate: -1 } }
+      )
+      .skip(skip)
+      .limit(isShorted ? 25 : 50)
+      .lean();
 
-  //   {
-  //     $project: {
-  //       _id: 0,
-  //       idCertificate: 1,
-  //       number: 1,
-  //       idStatus: 1,
-  //       status: 1,
-  //       certRegDate: 1,
-  //       certEndDate: 1,
-  //       applicant: 1,
-  //       manufacturer: 1,
-  //       contactType: 1,
-  //       applicantType: 1,
-  //       declarantType: 1,
-  //       oksm: 1,
-  //       product: 1,
-  //       idTechnicalReglaments: 1,
-  //       validationFormNormDocDecoded: 1,
-  //       testingLabs: 1,
-  //       certificationAuthority: 1,
-  //     },
-  //   },
+    console.log("out");
+    return out;
+  } else {
+    const out = await certificateSearchModel
+      .findOne(
+        Object.fromEntries(
+          Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+        )
+      )
+      .lean();
 
-  //   {
-  //     $skip: skip,
-  //   },
-  //   {
-  //     $limit: isShorted ? 25 : 50,
-  //   },
-  // ])
-  // .allowDiskUse(true)
-  // .exec();
-  console.log("out");
-  return out;
+    console.log("out");
+    return out;
+  }
 }
