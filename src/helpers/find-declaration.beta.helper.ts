@@ -49,6 +49,8 @@ export async function findDeclarationsBeta(
             $search: `\"${applicantShortName ?? ""}\" \"${
               applicantFullName ?? ""
             }\"`,
+            $language: "ru",
+            $diacriticSensitive: false,
           }
         : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName

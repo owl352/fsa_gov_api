@@ -50,6 +50,8 @@ export async function findCertificatesBeta(
             $search: `\"${applicantShortName ?? ""}\" \"${
               applicantFullName ?? ""
             }\"`,
+            $language: "ru",
+            $diacriticSensitive: false,
           }
         : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
