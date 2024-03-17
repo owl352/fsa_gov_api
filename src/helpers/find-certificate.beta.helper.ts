@@ -57,35 +57,29 @@ export async function findCertificatesBeta(
         : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(manufacturerShortName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              manufacturerShortName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(manufacturerShortName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            manufacturerShortName +
+            "\\b",
         }
       : undefined;
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(manufacturerFullName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              manufacturerFullName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(manufacturerFullName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            manufacturerFullName +
+            "\\b",
         }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(productFullName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              productFullName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(productFullName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            productFullName +
+            "\\b",
         }
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
@@ -93,28 +87,24 @@ export async function findCertificatesBeta(
       : undefined;
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(testingLabsFullName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              testingLabsFullName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(testingLabsFullName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            testingLabsFullName +
+            "\\b",
         }
       : undefined;
-    
+
     filtersQuery["certificationAuthority.fullName"] =
       certificationAuthorityFullName
         ? {
-            $regex: new RegExp(
+            $regex:
               (getSearchLocale(certificationAuthorityFullName) == "en"
                 ? "(*UCP)"
                 : "") +
-                "\\b" +
-                certificationAuthorityFullName +
-                "\\b",
-              "i"
-            ),
+              "\\b" +
+              certificationAuthorityFullName +
+              "\\b",
           }
         : undefined;
     filtersQuery["certificationAuthority.attestatRegNumber"] =
@@ -166,11 +156,15 @@ export async function findCertificatesBeta(
           Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
         ),
         null,
-        { sort: { idCertificate: -1 } }
+        {
+          /*sort: { idCertificate: -1 },*/ 
+          skip: skip,
+          limit: isShorted ? 25 : 50,
+        }
       )
-      .skip(skip)
-      .limit(isShorted ? 25 : 50)
       .lean();
+    // .skip(skip)
+    // .limit()
 
     console.log("out");
     return out;
