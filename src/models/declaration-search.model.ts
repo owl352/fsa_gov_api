@@ -6,4 +6,3 @@ export const declarationSearchModel = mongoose.model(
   declarationSearchSchema
 );
 
-declarationSearchModel.createIndexes({ number: 1, name: "number_1" });

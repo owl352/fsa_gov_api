@@ -1,5 +1,6 @@
 import { DeclarationFilters } from "../@types";
 import { declarationSearchModel } from "../models";
+import { getSearchLocale } from "./get-search-locale.helper";
 
 export async function findDeclarationsBeta(
   filters: DeclarationFilters | null,
@@ -49,16 +50,19 @@ export async function findDeclarationsBeta(
             $search: `\"${applicantShortName ?? ""}\" \"${
               applicantFullName ?? ""
             }\"`,
-            $language: "ru",
-            $diacriticSensitive: false,
+            $language: getSearchLocale(
+              `\"${applicantShortName ?? ""}\" \"${applicantFullName ?? ""}\"`
+            ),
+            $diacriticSensitive: true,
           }
         : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(manufacturerShortName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               manufacturerShortName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -66,9 +70,10 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(manufacturerFullName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               manufacturerFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -76,9 +81,10 @@ export async function findDeclarationsBeta(
     filtersQuery["product.fullName"] = productFullName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(productFullName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               productFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -89,9 +95,10 @@ export async function findDeclarationsBeta(
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(testingLabsFullName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               testingLabsFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -100,9 +107,12 @@ export async function findDeclarationsBeta(
       certificationAuthorityFullName
         ? {
             $regex: new RegExp(
-              '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+              (getSearchLocale(certificationAuthorityFullName) == "en"
+                ? "(*UCP)"
+                : "") +
+                "\\b" +
                 certificationAuthorityFullName +
-                '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+                "\\b",
               "i"
             ),
           }

@@ -1,5 +1,6 @@
 import { CertificatesFilters } from "../@types";
 import { certificateSearchModel } from "../models";
+import { getSearchLocale } from "./get-search-locale.helper";
 
 export async function findCertificatesBeta(
   filters: CertificatesFilters | null,
@@ -57,9 +58,10 @@ export async function findCertificatesBeta(
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(manufacturerShortName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               manufacturerShortName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -67,9 +69,10 @@ export async function findCertificatesBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(manufacturerFullName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               manufacturerFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -77,9 +80,10 @@ export async function findCertificatesBeta(
     filtersQuery["product.fullName"] = productFullName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(productFullName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               productFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -90,9 +94,10 @@ export async function findCertificatesBeta(
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
           $regex: new RegExp(
-            '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+            (getSearchLocale(testingLabsFullName) == "en" ? "(*UCP)" : "") +
+              "\\b" +
               testingLabsFullName +
-              '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+              "\\b",
             "i"
           ),
         }
@@ -101,9 +106,12 @@ export async function findCertificatesBeta(
       certificationAuthorityFullName
         ? {
             $regex: new RegExp(
-              '(^|((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b)' +
+              (getSearchLocale(certificationAuthorityFullName) == "en"
+                ? "(*UCP)"
+                : "") +
+                "\\b" +
                 certificationAuthorityFullName +
-                '(((?![А-ЯA-z])[.,\\/#!$%\\^&\\*;"«»:{}=\\-_`~()])|\\s|\\b|$)',
+                "\\b",
               "i"
             ),
           }
