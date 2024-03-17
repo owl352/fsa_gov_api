@@ -102,6 +102,7 @@ export async function findCertificatesBeta(
           ),
         }
       : undefined;
+    
     filtersQuery["certificationAuthority.fullName"] =
       certificationAuthorityFullName
         ? {

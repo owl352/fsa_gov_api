@@ -58,35 +58,30 @@ export async function findDeclarationsBeta(
         : undefined;
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(manufacturerShortName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              manufacturerShortName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(manufacturerShortName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            manufacturerShortName +
+            "\\b",
         }
       : undefined;
+
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(manufacturerFullName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              manufacturerFullName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(manufacturerFullName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            manufacturerFullName +
+            "\\b",
         }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(productFullName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              productFullName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(productFullName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            productFullName +
+            "\\b",
         }
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
@@ -94,27 +89,23 @@ export async function findDeclarationsBeta(
       : undefined;
     filtersQuery["testingLabs.fullName"] = testingLabsFullName
       ? {
-          $regex: new RegExp(
-            (getSearchLocale(testingLabsFullName) == "en" ? "(*UCP)" : "") +
-              "\\b" +
-              testingLabsFullName +
-              "\\b",
-            "i"
-          ),
+          $regex:
+            (getSearchLocale(testingLabsFullName) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            testingLabsFullName +
+            "\\b",
         }
       : undefined;
     filtersQuery["certificationAuthority.fullName"] =
       certificationAuthorityFullName
         ? {
-            $regex: new RegExp(
+            $regex:
               (getSearchLocale(certificationAuthorityFullName) == "en"
                 ? "(*UCP)"
                 : "") +
-                "\\b" +
-                certificationAuthorityFullName +
-                "\\b",
-              "i"
-            ),
+              "\\b" +
+              certificationAuthorityFullName +
+              "\\b",
           }
         : undefined;
     filtersQuery["certificationAuthority.attestatRegNumber"] =
@@ -163,11 +154,8 @@ export async function findDeclarationsBeta(
           Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
         ),
         null,
-        { sort: { idDeclaration: -1 } }
+        { sort: { idDeclaration: -1 }, limit: isShorted ? 25 : 50, skip: skip }
       )
-      .skip(skip)
-      .limit(isShorted ? 25 : 50)
-      // .sort({ declRegDate: -1, declEndDate:-1,idDeclaration:-1,idStatus:-1,number:-1})
       .lean();
     // .allowDiskUse(false)
 
