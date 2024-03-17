@@ -156,8 +156,8 @@ export async function findDeclarationsBeta(
         null,
         { limit: isShorted ? 25 : 50, skip: skip }
       )
-      .explain();
-    // .allowDiskUse(false)
+      .allowDiskUse(true)
+      .lean();
 
     console.log("out");
     return out;
