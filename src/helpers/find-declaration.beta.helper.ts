@@ -154,7 +154,11 @@ export async function findDeclarationsBeta(
           Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
         ),
         null,
-        { limit: isShorted ? 25 : 50, skip: skip }
+        {
+          sort: { idDeclaration: -1, declRegDate: 1 },
+          limit: isShorted ? 25 : 50,
+          skip: skip,
+        }
       )
       .allowDiskUse(true)
       .lean();
