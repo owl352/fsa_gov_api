@@ -176,6 +176,6 @@ export async function findDeclarationsBeta(
       )
       .lean();
     console.log("out");
-    return out;
+    return [out];
   }
 }

@@ -182,6 +182,6 @@ export async function findCertificatesBeta(
       .lean();
 
     console.log("out");
-    return out;
+    return [out];
   }
 }
