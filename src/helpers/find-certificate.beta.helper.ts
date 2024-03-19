@@ -51,7 +51,6 @@ export async function findCertificatesBeta(
             $search: `\"${applicantShortName ?? ""}\" \"${
               applicantFullName ?? ""
             }\"`,
-            $language: "ru",
             $diacriticSensitive: false,
           }
         : undefined;
@@ -62,6 +61,7 @@ export async function findCertificatesBeta(
             "\\b" +
             manufacturerShortName +
             "\\b",
+          $options: "i",
         }
       : undefined;
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
@@ -71,6 +71,7 @@ export async function findCertificatesBeta(
             "\\b" +
             manufacturerFullName +
             "\\b",
+          $options: "i",
         }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
@@ -80,6 +81,7 @@ export async function findCertificatesBeta(
             "\\b" +
             productFullName +
             "\\b",
+          $options: "i",
         }
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
@@ -92,6 +94,7 @@ export async function findCertificatesBeta(
             "\\b" +
             testingLabsFullName +
             "\\b",
+          $options: "i",
         }
       : undefined;
 
@@ -105,6 +108,7 @@ export async function findCertificatesBeta(
               "\\b" +
               certificationAuthorityFullName +
               "\\b",
+            $options: "i",
           }
         : undefined;
     filtersQuery["certificationAuthority.attestatRegNumber"] =
@@ -157,7 +161,7 @@ export async function findCertificatesBeta(
         ),
         null,
         {
-          /*sort: { idCertificate: -1 },*/ 
+          sort: { idCertificate: -1 },
           skip: skip,
           limit: isShorted ? 25 : 50,
         }
