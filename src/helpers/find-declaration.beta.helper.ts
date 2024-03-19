@@ -157,7 +157,7 @@ export async function findDeclarationsBeta(
         ),
         null,
         {
-          sort: { idDeclaration: -1, declRegDate: 1 },
+          sort: { idDeclaration: -1},
           limit: isShorted ? 25 : 50,
           skip: skip,
         }
