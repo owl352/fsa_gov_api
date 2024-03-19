@@ -163,7 +163,7 @@ export async function findDeclarationsBeta(
         }
       )
       // .allowDiskUse(true)
-      .explain();
+      .lean();
 
     console.log("out");
     return out;
