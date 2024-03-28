@@ -120,13 +120,10 @@ export async function findCertificatesBeta(
       ? { $regex: contactType }
       : undefined;
     filtersQuery["oksm.shortName"] = oksm ? { $regex: oksm } : undefined;
-    filtersQuery["product.tnveds"] = tnvedName
-      ? { $elemMatch: { $elemMatch: { name: { $regex: tnvedName } } } }
-      : undefined;
     filtersQuery["product.tnveds"] = tnvedCodePart
-      ? { $elemMatch: { $elemMatch: { code: { $regex: tnvedCodePart } } } }
+      ? { $regex: tnvedCodePart }
       : tnvedCode
-      ? { $elemMatch: { $elemMatch: { code: tnvedCode } } }
+      ? tnvedCode
       : undefined;
     filtersQuery["validationFormNormDocDecoded.name"] =
       validationFormNormDocName
