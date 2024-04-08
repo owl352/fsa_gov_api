@@ -120,7 +120,10 @@ export async function findCertificatesBeta(
       ? { $regex: contactType }
       : undefined;
     filtersQuery["oksm.shortName"] = oksm ? { $regex: oksm } : undefined;
-    filtersQuery["product.tnveds"] = tnvedCodePart
+    filtersQuery["product.tnveds.name"] = tnvedName
+      ? { $regex: tnvedName }
+      : undefined;
+    filtersQuery["product.tnveds.code"] = tnvedCodePart
       ? { $regex: tnvedCodePart }
       : tnvedCode
       ? tnvedCode
