@@ -36,6 +36,7 @@ export async function findDeclarationsBeta(
       tnvedCodePart,
       validationFormNormDocName,
       validationFormNormDocNum,
+      scheme,
     } = filters;
 
     filtersQuery.declRegDate = declRegDate || undefined;
@@ -115,6 +116,12 @@ export async function findDeclarationsBeta(
         ? { $regex: certificationAuthorityAttestatRegNumber }
         : undefined;
     filtersQuery["status.name"] = status ? { $regex: status } : undefined;
+    filtersQuery["scheme"] = scheme
+      ? {
+          $regex: `(*UCP)\\b${scheme}\\b`,
+          $options: "i",
+        }
+      : undefined;
     filtersQuery["contactType.name"] = contactType
       ? { $regex: contactType }
       : undefined;
@@ -157,7 +164,7 @@ export async function findDeclarationsBeta(
         ),
         null,
         {
-          sort: { idDeclaration: -1},
+          sort: { idDeclaration: -1 },
           limit: isShorted ? 25 : 50,
           skip: skip,
         }

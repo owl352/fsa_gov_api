@@ -5,6 +5,7 @@ export const certificateSearchSchema = new Schema({
   idCertificate: { type: Schema.Types.Mixed },
   idTechnicalReglaments: { type: Schema.Types.Mixed },
   idStatus: { type: Schema.Types.Mixed },
+  scheme: { type: Schema.Types.Mixed },
   number: { type: Schema.Types.Mixed },
   certRegDate: { type: Schema.Types.Mixed },
   certEndDate: { type: Schema.Types.Mixed },

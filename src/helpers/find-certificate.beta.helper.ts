@@ -37,6 +37,7 @@ export async function findCertificatesBeta(
       validationFormNormDocName,
       validationFormNormDocNum,
       techregProductListEEU,
+      scheme,
     } = filters;
 
     filtersQuery.certRegDate = certRegDate || undefined;
@@ -45,6 +46,12 @@ export async function findCertificatesBeta(
     filtersQuery.idStatus = idStatus || undefined;
     filtersQuery.number = number ? { $regex: number } : undefined;
     filtersQuery["applicant.inn"] = inn || undefined;
+    filtersQuery["scheme"] = scheme
+      ? {
+          $regex: `(*UCP)\\b${scheme}\\b`,
+          $options: "i",
+        }
+      : undefined;
     filtersQuery["$text"] =
       filters.applicantShortName || filters.applicantFullName
         ? {

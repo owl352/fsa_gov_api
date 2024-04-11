@@ -14,7 +14,7 @@ export type CertificatesFilters = {
   testingLabsFullName?: string | null;
   certificationAuthorityFullName?: string | null;
   certificationAuthorityAttestatRegNumber?: string | null;
-
+  scheme?: string | null;
   validationObjectType?: string | null;
   conformityDocType?: string | null;
   status?: string | null;

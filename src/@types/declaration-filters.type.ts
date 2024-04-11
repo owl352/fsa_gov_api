@@ -26,4 +26,5 @@ export type DeclarationFilters = {
   oksm?: string | null;
   fiasAddrobj?: string | null;
   page?: number | null;
+  scheme?: string | null;
 };
