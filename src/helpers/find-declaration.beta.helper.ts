@@ -43,7 +43,16 @@ export async function findDeclarationsBeta(
     filtersQuery.declEndDate = declEndDate || undefined;
     filtersQuery.idDeclaration = idDeclaration || undefined;
     filtersQuery.idStatus = idStatus || undefined;
-    filtersQuery.number = number ? { $regex: number } : undefined;
+    filtersQuery.number = number
+      ? {
+          $regex:
+            (getSearchLocale(number) != "en" ? "(*UCP)" : "") +
+            "\\b" +
+            number +
+            "\\b",
+          $options: "i",
+        }
+      : undefined;
     filtersQuery["applicant.inn"] = inn || undefined;
     filtersQuery["$text"] =
       filters.applicantShortName || filters.applicantFullName
