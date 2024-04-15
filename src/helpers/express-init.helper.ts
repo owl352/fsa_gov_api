@@ -1,16 +1,17 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { findDeclarations } from "./find-declarations.helper";
 import { CertificatesFilters, DeclarationFilters } from "../@types";
 import { findDeclarationDetails } from "./find-declaration-details.helper";
-import { findCertificates } from "./find-certificates.helper";
 import { findCertificateDetails } from "./find-certificate-details.helper";
 import { RateLimiterMongo } from "rate-limiter-flexible";
 import { findDeclarationDecode } from "./find-declaration-decode.helper";
 import { findCertificateDecode } from "./find-certificate-decode.helper";
 import { findCertificatesBeta } from "./find-certificate.beta.helper";
 import { findDeclarationsBeta } from "./find-declaration.beta.helper";
+import fs from "fs";
+import http from "http";
+import https from "https";
 
 export function initExpress(mongo: any) {
   const rateLimiterMongo = new RateLimiterMongo({
@@ -109,9 +110,9 @@ export function initExpress(mongo: any) {
         req.body.certificate || null;
       const page = req.body.page ?? 0;
 
-      const data =await Promise.all([
-        findDeclarationsBeta({ ...declarationFilters, page },true),
-        findCertificatesBeta({ ...certificateFilters, page },true),
+      const data = await Promise.all([
+        findDeclarationsBeta({ ...declarationFilters, page }, true),
+        findCertificatesBeta({ ...certificateFilters, page }, true),
       ]);
 
       res.send(data);
@@ -150,6 +151,17 @@ export function initExpress(mongo: any) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+
+  if (
+    fs.existsSync("sslcert/server.key") &&
+    fs.existsSync("sslcert/server.crt")
+  ) {
+    var privateKey = fs.readFileSync("sslcert/server.key", "utf8");
+    var certificate = fs.readFileSync("sslcert/server.crt", "utf8");
+
+    var credentials = { key: privateKey, cert: certificate };
+    var httpsServer = https.createServer(credentials, app);
+  }
 
   return app;
 }
