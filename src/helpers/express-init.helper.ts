@@ -147,7 +147,7 @@ export function initExpress(mongo: any) {
     }
   });
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = 6325;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
@@ -161,6 +161,7 @@ export function initExpress(mongo: any) {
 
     var credentials = { key: privateKey, cert: certificate };
     var httpsServer = https.createServer(credentials, app);
+    httpsServer.listen(process.env.PORT || 3000)
   }
 
   return app;
