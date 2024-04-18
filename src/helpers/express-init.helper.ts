@@ -13,6 +13,17 @@ import fs from "fs";
 import http from "http";
 import https from "https";
 
+var wwwRedirect = function (req: any, res: any, next: () => unknown) {
+  if (req.get("host").indexOf("www.") === 0) {
+    if (req.method === "GET" && !req.xhr) {
+      return res.redirect(
+        req.protocol + "://" + req.get("host").substring(4) + req.originalUrl
+      );
+    }
+  }
+  next();
+};
+
 export function initExpress(mongo: any) {
   const rateLimiterMongo = new RateLimiterMongo({
     storeClient: mongo.connection,
@@ -33,6 +44,8 @@ export function initExpress(mongo: any) {
   };
 
   const app = express();
+
+  app.use(wwwRedirect);
   app.use(rateLimiterMiddleware);
   app.use(
     cors({
@@ -150,7 +163,7 @@ export function initExpress(mongo: any) {
   if (process.env.FRONT_PATH) {
     console.log(process.env.FRONT_PATH);
     app.use(express.static(process.env.FRONT_PATH));
-    app.get('/', function (req,res) {
+    app.get("/", function (req, res) {
       res.sendFile(process.env.FRONT_PATH + "index.html");
     });
   }
