@@ -49,7 +49,7 @@ export function initExpress(mongo: any) {
     res.status(500).send("500");
   };
 
-  app.post("/declarations", async (req: Request, res: Response) => {
+  app.post("api/declarations", async (req: Request, res: Response) => {
     try {
       const filters: DeclarationFilters | null = req.body || null;
       res.send(await findDeclarationsBeta(filters));
@@ -58,7 +58,7 @@ export function initExpress(mongo: any) {
     }
   });
 
-  app.post("/declarationsDetails", async (req: Request, res: Response) => {
+  app.post("api/declarationsDetails", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
@@ -71,7 +71,7 @@ export function initExpress(mongo: any) {
     }
   });
 
-  // app.post("/certificates", async (req: Request, res: Response) => {
+  // app.post("api/certificates", async (req: Request, res: Response) => {
   //   try {
   //     const filters: CertificatesFilters | null = req.body || null;
   //     res.send(await findCertificates(filters));
@@ -80,7 +80,7 @@ export function initExpress(mongo: any) {
   //   }
   // });
 
-  app.post("/certificates", async (req: Request, res: Response) => {
+  app.post("api/certificates", async (req: Request, res: Response) => {
     try {
       const filters: CertificatesFilters | null = req.body || null;
       res.send(await findCertificatesBeta(filters));
@@ -89,7 +89,7 @@ export function initExpress(mongo: any) {
     }
   });
 
-  app.post("/certificatesDetails", async (req: Request, res: Response) => {
+  app.post("api/certificatesDetails", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
@@ -102,7 +102,7 @@ export function initExpress(mongo: any) {
     }
   });
 
-  app.post("/certsNDecl", async (req: Request, res: Response) => {
+  app.post("api/certsNDecl", async (req: Request, res: Response) => {
     try {
       const declarationFilters: DeclarationFilters | null =
         req.body.declaration || null;
@@ -121,7 +121,7 @@ export function initExpress(mongo: any) {
     }
   });
 
-  app.post("/declDecode", async (req: Request, res: Response) => {
+  app.post("api/declDecode", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
@@ -134,7 +134,7 @@ export function initExpress(mongo: any) {
     }
   });
 
-  app.post("/certDecode", async (req: Request, res: Response) => {
+  app.post("api/certDecode", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.body.id);
       if (!isNaN(id)) {
@@ -146,6 +146,11 @@ export function initExpress(mongo: any) {
       handleError(res, error);
     }
   });
+
+  if (process.env.FRONT_PATH) {
+    console.log(process.env.FRONT_PATH);
+    app.use(express.static(process.env.FRONT_PATH));
+  }
 
   const PORT = 6325;
   app.listen(PORT, () => {
@@ -161,7 +166,7 @@ export function initExpress(mongo: any) {
 
     var credentials = { key: privateKey, cert: certificate };
     var httpsServer = https.createServer(credentials, app);
-    httpsServer.listen(process.env.PORT || 3000)
+    httpsServer.listen(process.env.PORT || 3000);
   }
 
   return app;
