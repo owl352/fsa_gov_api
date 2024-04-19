@@ -10,8 +10,8 @@ import { findCertificateDecode } from "./find-certificate-decode.helper";
 import { findCertificatesBeta } from "./find-certificate.beta.helper";
 import { findDeclarationsBeta } from "./find-declaration.beta.helper";
 import fs from "fs";
-import http from "http";
 import https from "https";
+import history from "connect-history-api-fallback";
 
 var wwwRedirect = function (req: any, res: any, next: () => unknown) {
   if (req.get("host").indexOf("www.") === 0) {
@@ -46,6 +46,7 @@ export function initExpress(mongo: any) {
   const app = express();
 
   app.use(wwwRedirect);
+  app.use(history({}));
   app.use(rateLimiterMiddleware);
   app.use(
     cors({
@@ -167,6 +168,13 @@ export function initExpress(mongo: any) {
       res.sendFile(process.env.FRONT_PATH + "index.html");
     });
   }
+
+  app.get("*", function (req, res) {
+    const host: string | undefined = req.get("host");
+    if (host !== undefined) {
+      res.redirect(req.protocol + "://" + host.substring(4));
+    }
+  });
 
   const PORT = 6325;
   app.listen(PORT, () => {
