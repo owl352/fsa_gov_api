@@ -50,6 +50,7 @@ export async function findDeclarationsBeta(
             "\\b" +
             number +
             "\\b",
+          $options: "i",
         }
       : undefined;
     filtersQuery["applicant.inn"] = inn || undefined;
@@ -69,6 +70,7 @@ export async function findDeclarationsBeta(
             "\\b" +
             manufacturerShortName +
             "\\b",
+          $options: "i",
         }
       : undefined;
 
@@ -86,6 +88,7 @@ export async function findDeclarationsBeta(
             "\\b" +
             productFullName +
             "\\b",
+          $options: "i",
         }
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
@@ -98,6 +101,7 @@ export async function findDeclarationsBeta(
             "\\b" +
             testingLabsFullName +
             "\\b",
+          $options: "i",
         }
       : undefined;
     filtersQuery["certificationAuthority.fullName"] =
