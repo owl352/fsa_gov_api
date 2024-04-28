@@ -50,7 +50,6 @@ export async function findDeclarationsBeta(
             "\\b" +
             number +
             "\\b",
-          $options: "i",
         }
       : undefined;
     filtersQuery["applicant.inn"] = inn || undefined;
@@ -70,7 +69,6 @@ export async function findDeclarationsBeta(
             "\\b" +
             manufacturerShortName +
             "\\b",
-          $options: "i",
         }
       : undefined;
 
@@ -81,7 +79,6 @@ export async function findDeclarationsBeta(
             "\\b" +
             manufacturerFullName +
             "\\b",
-          $options: "i",
         }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
@@ -91,7 +88,6 @@ export async function findDeclarationsBeta(
             "\\b" +
             productFullName +
             "\\b",
-          $options: "i",
         }
       : undefined;
     filtersQuery["testingLabs.regNumber"] = testingLabsRegNumber
@@ -104,7 +100,6 @@ export async function findDeclarationsBeta(
             "\\b" +
             testingLabsFullName +
             "\\b",
-          $options: "i",
         }
       : undefined;
     filtersQuery["certificationAuthority.fullName"] =
@@ -117,7 +112,6 @@ export async function findDeclarationsBeta(
               "\\b" +
               certificationAuthorityFullName +
               "\\b",
-            $options: "i",
           }
         : undefined;
     filtersQuery["certificationAuthority.attestatRegNumber"] =
@@ -128,7 +122,6 @@ export async function findDeclarationsBeta(
     filtersQuery["scheme"] = scheme
       ? {
           $regex: `(*UCP)\\b${scheme}\\b`,
-          $options: "i",
         }
       : undefined;
     filtersQuery["contactType.name"] = contactType
