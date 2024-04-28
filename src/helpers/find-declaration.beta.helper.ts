@@ -79,6 +79,7 @@ export async function findDeclarationsBeta(
           $regex: `${
             getSearchLocale(manufacturerFullName) != "en" ? "(*UCP) " : ""
           }\\b${manufacturerFullName}\\b`,
+          $options: "i",
         }
       : undefined;
     filtersQuery["product.fullName"] = productFullName
