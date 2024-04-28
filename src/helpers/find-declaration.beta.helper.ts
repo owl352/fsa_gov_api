@@ -168,7 +168,6 @@ export async function findDeclarationsBeta(
         ),
         null,
         {
-          sort: { idDeclaration: -1 },
           limit: isShorted ? 25 : 50,
           skip: skip,
         }
