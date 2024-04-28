@@ -155,7 +155,11 @@ export async function findDeclarationsBeta(
 
   const skip = (filters?.page || 0) * 50;
 
-  console.log(filtersQuery);
+  console.log(
+    Object.fromEntries(
+      Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+    )
+  );
   if (filters?.number == undefined) {
     const out = await declarationSearchModel
       .find(
