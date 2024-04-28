@@ -161,16 +161,23 @@ export async function findDeclarationsBeta(
     )
   );
   if (filters?.number == undefined) {
+    let opt = {
+      sort: {},
+      limit: isShorted ? 25 : 50,
+      skip: skip,
+    };
+    if (!filters?.manufacturerFullName || !filters?.manufacturerShortName) {
+      opt.sort = { idDeclaration: -1 };
+      console.log('test')
+    }
+
     const out = await declarationSearchModel
       .find(
         Object.fromEntries(
           Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
         ),
         null,
-        {
-          limit: isShorted ? 25 : 50,
-          skip: skip,
-        }
+        opt
       )
       // .allowDiskUse(true)
       .lean();
