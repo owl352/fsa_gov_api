@@ -161,14 +161,14 @@ export async function findDeclarationsBeta(
     )
   );
   if (filters?.number == undefined) {
-    let opt = {
-      sort: {},
+    let opt: any = {
+      sort: { idDeclaration: -1 },
       limit: isShorted ? 25 : 50,
       skip: skip,
     };
-    if (!filters?.manufacturerFullName || !filters?.manufacturerShortName) {
-      opt.sort = { idDeclaration: -1 };
-      console.log('test')
+    if (filters?.manufacturerFullName || filters?.manufacturerShortName) {
+      opt.sort = {};
+      console.log("test");
     }
 
     const out = await declarationSearchModel
