@@ -5,9 +5,8 @@ export async function metricsMiddleware(
   res: any,
   next: any
 ): Promise<any> {
-  const exist = await metricModel.findOne({ ip: req.socket.remoteAddress });
+  const exist = await metricModel.findOne({ ip: req.ip });
   if (!req.url.includes("favicon") && !req.url.includes("assets")) {
-    console.log(req)
     if (exist) {
       let newLoginsData: Array<any> = exist.logins as Array<any>;
       if (newLoginsData.length > 500) {
@@ -24,13 +23,13 @@ export async function metricsMiddleware(
         platform: req.header("sec-ch-ua-platform"),
       });
       await metricModel.updateOne(
-        { ip: req.socket.remoteAddress },
+        { ip: req.ip },
         { logins: newLoginsData }
       );
     } else {
       await metricModel.create({
         firstLogin: new Date(),
-        ip: req.socket.remoteAddress,
+        ip: req.ip,
         logins: [
           {
             time: new Date(),
