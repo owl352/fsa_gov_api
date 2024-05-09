@@ -12,6 +12,8 @@ import { findDeclarationsBeta } from "./find-declaration.beta.helper";
 import fs from "fs";
 import https from "https";
 import history from "connect-history-api-fallback";
+import { metricsMiddleware } from "./metrics-middleware.helper";
+import { createMetricsCleaner } from "./metrics-cleaner.helper";
 
 var wwwRedirect = function (req: any, res: any, next: () => unknown) {
   if (req.get("host").indexOf("www.") === 0) {
@@ -43,9 +45,12 @@ export function initExpress(mongo: any) {
       });
   };
 
+  createMetricsCleaner();
+
   const app = express();
 
   app.use(wwwRedirect);
+  app.use(metricsMiddleware);
   app.use(history({}));
   app.use(rateLimiterMiddleware);
   app.use(

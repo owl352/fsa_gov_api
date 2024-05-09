@@ -8,3 +8,4 @@ export * from "./certificate-decode.model";
 export * from "./declaration-decode.model";
 export * from "./certificate-search.model";
 export * from "./declaration-search.model";
+export * from "./metrics.model";
