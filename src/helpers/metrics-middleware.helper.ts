@@ -5,10 +5,12 @@ export async function metricsMiddleware(
   res: any,
   next: any
 ): Promise<any> {
-  const exist = await metricModel.findOne({ ip: req.ip });
-  console.log(exist);
-  console.log(req.ip);
-  if (!req.url.includes("favicon") && !req.url.includes("assets")) {
+  const exist = await metricModel.findOne({ ip: req.socket.remoteAddress });
+  if (
+    !req.url.includes("api") &&
+    !req.url.includes("favicon") &&
+    !req.url.includes("assets")
+  ) {
     if (exist) {
       let newLoginsData: Array<any> = exist.logins as Array<any>;
       if (newLoginsData.length > 500) {
@@ -19,23 +21,24 @@ export async function metricsMiddleware(
         url: req.url,
         query: req.query,
         params: req.params,
-        body: req.body,
         "user-agent": req.header("user-agent"),
         browser: req.header("sec-ch-ua"),
         platform: req.header("sec-ch-ua-platform"),
       });
-      await metricModel.updateOne({ ip: req.ip }, { logins: newLoginsData });
+      await metricModel.updateOne(
+        { ip: req.socket.remoteAddress },
+        { logins: newLoginsData }
+      );
     } else {
       await metricModel.create({
         firstLogin: new Date(),
-        ip: req.ip,
+        ip: req.socket.remoteAddress,
         logins: [
           {
             time: new Date(),
             url: req.url,
             query: req.query,
             params: req.params,
-            body: req.body,
             "user-agent": req.header("user-agent"),
             browser: req.header("sec-ch-ua"),
             platform: req.header("sec-ch-ua-platform"),
