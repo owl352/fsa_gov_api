@@ -6,6 +6,8 @@ export async function metricsMiddleware(
   next: any
 ): Promise<any> {
   const exist = await metricModel.findOne({ ip: req.ip });
+  console.log(exist);
+  console.log(req.ip);
   if (!req.url.includes("favicon") && !req.url.includes("assets")) {
     if (exist) {
       let newLoginsData: Array<any> = exist.logins as Array<any>;
@@ -22,10 +24,7 @@ export async function metricsMiddleware(
         browser: req.header("sec-ch-ua"),
         platform: req.header("sec-ch-ua-platform"),
       });
-      await metricModel.updateOne(
-        { ip: req.ip },
-        { logins: newLoginsData }
-      );
+      await metricModel.updateOne({ ip: req.ip }, { logins: newLoginsData });
     } else {
       await metricModel.create({
         firstLogin: new Date(),
