@@ -7,6 +7,7 @@ export async function metricsMiddleware(
 ): Promise<any> {
   const exist = await metricModel.findOne({ ip: req.socket.remoteAddress });
   if (!req.url.includes("favicon") && !req.url.includes("assets")) {
+    console.log(req)
     if (exist) {
       let newLoginsData: Array<any> = exist.logins as Array<any>;
       if (newLoginsData.length > 500) {
