@@ -49,6 +49,9 @@ export function initExpress(mongo: any) {
 
   const app = express();
 
+  app.use(bodyParser.json());
+  app.use(bodyParser.raw());
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(wwwRedirect);
   app.use(metricsMiddleware);
   app.use(history({}));
@@ -59,9 +62,6 @@ export function initExpress(mongo: any) {
       optionsSuccessStatus: 200,
     })
   );
-  app.use(bodyParser.json());
-  app.use(bodyParser.raw());
-  app.use(bodyParser.urlencoded({ extended: true }));
 
   const handleError = (res: Response, error: any) => {
     console.error(error);
