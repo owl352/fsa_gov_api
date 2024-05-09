@@ -102,10 +102,11 @@ export function initExpress(mongo: any) {
           const out = await metricModel.findOne({ ip: { $regex: _ip } });
           res.send(out);
         } else {
-          await metricModel
+          const out = await metricModel
             .find({})
             .limit(10)
             .skip(page * 10);
+          res.send(out);
         }
       }
     } catch (error) {
