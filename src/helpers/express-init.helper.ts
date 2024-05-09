@@ -14,6 +14,8 @@ import https from "https";
 import history from "connect-history-api-fallback";
 import { metricsMiddleware } from "./metrics-middleware.helper";
 import { createMetricsCleaner } from "./metrics-cleaner.helper";
+import keccak256 from "keccak256";
+import { metricModel } from "../models";
 
 var wwwRedirect = function (req: any, res: any, next: () => unknown) {
   if (req.get("host").indexOf("www.") === 0) {
@@ -84,6 +86,24 @@ export function initExpress(mongo: any) {
         res.send(await findDeclarationDetails(id));
       } else {
         res.status(404).send("error");
+      }
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  app.post("/api/_stats", async (req: Request, res: Response) => {
+    try {
+      if (keccak256(req.body.pass).toString("hex") === process.env.PASS) {
+        const _ip = req.body.ip;
+        const _page = req.body.page;
+        const page = _page ? parseInt(_page) : 0;
+        if (_ip && _ip !== "") {
+          const out = await metricModel.findOne({ ip: { $regex: _ip } });
+          res.send(out);
+        } else {
+          await metricModel.find({}).limit(10).skip(page);
+        }
       }
     } catch (error) {
       handleError(res, error);
