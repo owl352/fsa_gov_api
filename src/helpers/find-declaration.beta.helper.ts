@@ -66,7 +66,7 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.shortName"] = manufacturerShortName
       ? {
           $regex:
-            (getSearchLocale(manufacturerShortName) != "en" ? "(*UCP) " : "") +
+            (getSearchLocale(manufacturerShortName) != "en" ? "(*UCP)" : "") +
             "\\b" +
             manufacturerShortName +
             "\\b",
@@ -77,7 +77,7 @@ export async function findDeclarationsBeta(
     filtersQuery["manufacturer.fullName"] = manufacturerFullName
       ? {
           $regex: `${
-            getSearchLocale(manufacturerFullName) != "en" ? "(*UCP) " : ""
+            getSearchLocale(manufacturerFullName) != "en" ? "(*UCP)" : ""
           }\\b${manufacturerFullName}\\b`,
           $options: "i",
         }
