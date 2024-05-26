@@ -172,56 +172,11 @@ export async function findCertificatesBeta(
     .find(
       Object.fromEntries(
         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-      ),
-      null,
-      {
-        sort: !(
-          filters?.manufacturerFullName ||
-          filters?.manufacturerShortName ||
-          filters?.number
-        )
-          ? { idCertificate: -1 }
-          : {},
-        skip: skip,
-        limit: isShorted ? 25 : 50,
-      }
+      )
     )
+    .limit(isShorted ? 25 : 50)
+    .skip(skip)
+    .sort("id")
     .lean();
-  // .skip(skip)
-  // .limit()
-
-  console.log("out");
   return out;
-  // console.log(filtersQuery);
-  // if (filters?.number == undefined) {
-  //   const out = await certificateSearchModel
-  //     .find(
-  //       Object.fromEntries(
-  //         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-  //       ),
-  //       null,
-  //       {
-  //         sort: { idCertificate: -1 },
-  //         skip: skip,
-  //         limit: isShorted ? 25 : 50,
-  //       }
-  //     )
-  //     .lean();
-  //   // .skip(skip)
-  //   // .limit()
-
-  //   console.log("out");
-  //   return out;
-  // } else {
-  //   const out = await certificateSearchModel
-  //     .findOne(
-  //       Object.fromEntries(
-  //         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-  //       )
-  //     )
-  //     .lean();
-
-  //   console.log("out");
-  //   return [out];
-  // }
 }

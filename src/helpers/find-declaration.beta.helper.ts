@@ -159,72 +159,15 @@ export async function findDeclarationsBeta(
   }
 
   const skip = (filters?.page || 0) * 50;
-
-  console.log(
-    Object.fromEntries(
-      Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-    )
-  );
-  let opt: any = {
-    sort: { idDeclaration: -1 },
-    limit: isShorted ? 25 : 50,
-    skip: skip,
-  };
-  if (
-    filters?.manufacturerFullName ||
-    filters?.manufacturerShortName ||
-    filters?.number
-  ) {
-    opt.sort = {};
-    console.log("test");
-  }
-
   const out = await declarationSearchModel
     .find(
       Object.fromEntries(
         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-      ),
-      null,
-      opt
+      )
     )
-    // .allowDiskUse(true)
+    .limit(isShorted ? 25 : 50)
+    .skip(skip)
+    .sort("id")
     .lean();
-
-  console.log("out");
   return out;
-  // if (filters?.number == undefined) {
-  //   let opt: any = {
-  //     sort: { idDeclaration: -1 },
-  //     limit: isShorted ? 25 : 50,
-  //     skip: skip,
-  //   };
-  //   if (filters?.manufacturerFullName || filters?.manufacturerShortName) {
-  //     opt.sort = {};
-  //     console.log("test");
-  //   }
-
-  //   const out = await declarationSearchModel
-  //     .find(
-  //       Object.fromEntries(
-  //         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-  //       ),
-  //       null,
-  //       opt
-  //     )
-  //     // .allowDiskUse(true)
-  //     .lean();
-
-  //   console.log("out");
-  //   return out;
-  // } else {
-  //   const out = await declarationSearchModel
-  //     .findOne(
-  //       Object.fromEntries(
-  //         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-  //       )
-  //     )
-  //     .lean();
-  //   console.log("out");
-  //   return [out];
-  // }
 }
