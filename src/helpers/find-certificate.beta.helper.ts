@@ -184,6 +184,7 @@ export async function findCertificatesBeta(
       }
     });
   }
+
   const out = await certificateSearchModel
     .find(query)
     .hint(hint)
