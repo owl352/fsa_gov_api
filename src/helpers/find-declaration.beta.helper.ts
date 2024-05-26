@@ -157,14 +157,21 @@ export async function findDeclarationsBeta(
       ? { $regex: fiasAddrobj }
       : undefined;
   }
-
   const skip = (filters?.page || 0) * 50;
+  const query = Object.fromEntries(
+    Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
+  );
+  const keysToCheck = Object.keys(query);
+  let hint: any = {};
+  keysToCheck.forEach((key) => {
+    if (filtersQuery[key]) {
+      hint[key] = 1;
+    }
+  });
+
   const out = await declarationSearchModel
-    .find(
-      Object.fromEntries(
-        Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
-      )
-    )
+    .find(query)
+    .hint(hint)
     .sort("-idDeclaration")
     .limit(isShorted ? 25 : 50)
     .skip(skip)

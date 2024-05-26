@@ -6,3 +6,7 @@ export const declarationSearchModel = mongoose.model(
   declarationSearchSchema
 );
 
+declarationSearchModel.createIndexes({
+  "manufacturer.fullName": 1,
+  declRegDate: -1,
+});
