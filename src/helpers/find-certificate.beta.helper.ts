@@ -179,12 +179,18 @@ export async function findCertificatesBeta(
     hint["number"] = 1;
   } else {
     keysToCheck.forEach((key) => {
-      if (filtersQuery[key] && Object.keys(hint).length < 1 && key != "$text") {
+      if (
+        filtersQuery[key] &&
+        Object.keys(hint).length < 1 &&
+        key != "$text" &&
+        key != "tetx"
+      ) {
         hint[key] = 1;
       }
     });
   }
-
+  console.log(query);
+  console.log(hint);
   const out = await certificateSearchModel
     .find(query)
     .hint(hint)
