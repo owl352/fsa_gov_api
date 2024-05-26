@@ -179,7 +179,7 @@ export async function findCertificatesBeta(
     hint["number"] = 1;
   } else {
     keysToCheck.forEach((key) => {
-      if (filtersQuery[key] && Object.keys(hint).length < 1) {
+      if (filtersQuery[key] && Object.keys(hint).length < 1 && key != "$text") {
         hint[key] = 1;
       }
     });
