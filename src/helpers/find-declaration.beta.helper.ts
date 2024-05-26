@@ -163,18 +163,24 @@ export async function findDeclarationsBeta(
   );
   const keysToCheck = Object.keys(query);
   let hint: any = {};
-  if (keysToCheck.includes("manufacturer.fullName")) {
-    hint["manufacturer.fullName"] = 1;
-  } else if (keysToCheck.includes("manufacturer.shortName")) {
-    hint["manufacturer.shortName"] = 1;
-  } else if (keysToCheck.includes("number")) {
-    hint["number"] = 1;
-  } else {
-    keysToCheck.forEach((key) => {
-      if (filtersQuery[key] && Object.keys(hint).length < 1 && key != "$text") {
-        hint[key] = 1;
-      }
-    });
+  if (!keysToCheck.includes("$text")) {
+    if (keysToCheck.includes("manufacturer.fullName")) {
+      hint["manufacturer.fullName"] = 1;
+    } else if (keysToCheck.includes("manufacturer.shortName")) {
+      hint["manufacturer.shortName"] = 1;
+    } else if (keysToCheck.includes("number")) {
+      hint["number"] = 1;
+    } else {
+      keysToCheck.forEach((key) => {
+        if (
+          filtersQuery[key] &&
+          Object.keys(hint).length < 1 &&
+          key != "$text"
+        ) {
+          hint[key] = 1;
+        }
+      });
+    }
   }
   const out = await declarationSearchModel
     .find(query)
