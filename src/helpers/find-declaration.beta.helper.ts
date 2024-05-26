@@ -165,9 +165,9 @@ export async function findDeclarationsBeta(
         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
       )
     )
+    .sort("-idDeclaration")
     .limit(isShorted ? 25 : 50)
     .skip(skip)
-    .sort("-id")
     .lean();
   return out;
 }

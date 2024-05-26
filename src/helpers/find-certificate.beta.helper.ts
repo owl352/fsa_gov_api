@@ -174,9 +174,9 @@ export async function findCertificatesBeta(
         Object.entries(filtersQuery).filter(([_, v]) => v !== undefined)
       )
     )
+    .sort("-idCertificate")
     .limit(isShorted ? 25 : 50)
     .skip(skip)
-    .sort("-id")
     .lean();
   return out;
 }
