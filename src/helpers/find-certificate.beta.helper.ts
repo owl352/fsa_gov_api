@@ -176,7 +176,7 @@ export async function findCertificatesBeta(
     )
     .limit(isShorted ? 25 : 50)
     .skip(skip)
-    .sort("id")
+    .sort("-id")
     .lean();
   return out;
 }

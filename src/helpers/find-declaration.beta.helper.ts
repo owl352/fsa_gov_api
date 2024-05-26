@@ -167,7 +167,7 @@ export async function findDeclarationsBeta(
     )
     .limit(isShorted ? 25 : 50)
     .skip(skip)
-    .sort("id")
+    .sort("-id")
     .lean();
   return out;
 }
