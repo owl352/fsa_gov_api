@@ -183,7 +183,9 @@ export async function findCertificatesBeta(
         if (
           filtersQuery[key] &&
           Object.keys(hint).length < 1 &&
-          key != "$text"
+          key != "$text" &&
+          key != "idStatus" &&
+          key != "productFullName"
         ) {
           hint[key] = 1;
         }
