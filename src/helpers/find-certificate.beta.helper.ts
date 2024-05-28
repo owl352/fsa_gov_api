@@ -189,7 +189,9 @@ export async function findCertificatesBeta(
           key != "testingLabs.fullName" &&
           key != "testingLabs.regNumber" &&
           key != "certificationAuthority.fullName" &&
-          key != "certificationAuthority.attestatRegNumber"
+          key != "certificationAuthority.attestatRegNumber" &&
+          key != "validationFormNormDocDecoded.docNum" &&
+          key != "validationFormNormDocDecoded.name"
         ) {
           hint[key] = 1;
         }
