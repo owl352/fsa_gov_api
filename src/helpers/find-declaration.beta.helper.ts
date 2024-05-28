@@ -177,7 +177,11 @@ export async function findDeclarationsBeta(
           Object.keys(hint).length < 1 &&
           key != "$text" &&
           key != "idStatus" &&
-          key != "product.fullName"
+          key != "product.fullName" &&
+          key != "testingLabs.fullName" &&
+          key != "testingLabs.regNumber" &&
+          key != "certificationAuthority.fullName" &&
+          key != "certificationAuthority.attestatRegNumber"
         ) {
           hint[key] = 1;
         }
