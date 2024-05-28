@@ -184,6 +184,8 @@ export async function findDeclarationsBeta(
       });
     }
   }
+  console.log(query);
+  console.log(hint);
   const out = await declarationSearchModel
     .find(query)
     .hint(hint)
