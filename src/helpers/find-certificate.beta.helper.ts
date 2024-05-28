@@ -185,7 +185,7 @@ export async function findCertificatesBeta(
           Object.keys(hint).length < 1 &&
           key != "$text" &&
           key != "idStatus" &&
-          key != "productFullName"
+          key != "product.fullName"
         ) {
           hint[key] = 1;
         }
