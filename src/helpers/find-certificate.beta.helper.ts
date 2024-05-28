@@ -118,7 +118,7 @@ export async function findCertificatesBeta(
       certificationAuthorityFullName
         ? {
             $regex:
-              (getSearchLocale(certificationAuthorityFullName) == "en"
+              (getSearchLocale(certificationAuthorityFullName) != "en"
                 ? "(*UCP)"
                 : "") +
               "\\b" +
