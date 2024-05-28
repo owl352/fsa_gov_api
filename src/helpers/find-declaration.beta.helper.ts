@@ -115,11 +115,12 @@ export async function findDeclarationsBeta(
               "\\b" +
               certificationAuthorityFullName +
               "\\b",
+            $options: "i",
           }
         : undefined;
     filtersQuery["certificationAuthority.attestatRegNumber"] =
       certificationAuthorityAttestatRegNumber
-        ? { $regex: certificationAuthorityAttestatRegNumber }
+        ? { $regex: certificationAuthorityAttestatRegNumber, $options: "i" }
         : undefined;
     filtersQuery["status.name"] = status ? { $regex: status } : undefined;
     filtersQuery["scheme"] = scheme

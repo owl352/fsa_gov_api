@@ -129,7 +129,7 @@ export async function findCertificatesBeta(
         : undefined;
     filtersQuery["certificationAuthority.attestatRegNumber"] =
       certificationAuthorityAttestatRegNumber
-        ? { $regex: certificationAuthorityAttestatRegNumber }
+        ? { $regex: certificationAuthorityAttestatRegNumber, $options: "i" }
         : undefined;
     filtersQuery["status.name"] = status ? { $regex: status } : undefined;
     filtersQuery["contactType.name"] = contactType
