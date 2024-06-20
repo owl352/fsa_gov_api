@@ -57,7 +57,9 @@ export async function findCertificatesBeta(
     filtersQuery["applicant.inn"] = inn || undefined;
     filtersQuery["scheme"] = scheme
       ? {
-          $regex: `(*UCP)\\b${scheme}\\b`,
+          $regex: `\\b${scheme
+            .replace("CC", "CС")
+            .replace("СС", "CС")}\\b`,
           $options: "i",
         }
       : undefined;

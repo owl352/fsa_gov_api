@@ -126,6 +126,7 @@ export async function findDeclarationsBeta(
     filtersQuery["scheme"] = scheme
       ? {
           $regex: `(*UCP)\\b${scheme}\\b`,
+          $options: "i",
         }
       : undefined;
     filtersQuery["contactType.name"] = contactType
