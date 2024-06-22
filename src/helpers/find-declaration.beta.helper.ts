@@ -178,6 +178,7 @@ export async function findDeclarationsBeta(
           filtersQuery[key] &&
           Object.keys(hint).length < 1 &&
           key != "$text" &&
+          key != "scheme" &&
           key != "idStatus" &&
           key != "product.fullName" &&
           key != "testingLabs.fullName" &&
