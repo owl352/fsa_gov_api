@@ -58,6 +58,7 @@ export async function findCertificatesBeta(
     filtersQuery["scheme"] = scheme
       ? {
           $regex: `(*UCP)\\b${scheme
+            .toUpperCase()
             .replace("CC", "CС")
             .replace("СС", "CС")}\\b`,
           $options: "i",
