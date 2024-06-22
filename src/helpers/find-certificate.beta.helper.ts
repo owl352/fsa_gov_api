@@ -180,8 +180,6 @@ export async function findCertificatesBeta(
       hint["manufacturer.shortName"] = 1;
     } else if (keysToCheck.includes("number")) {
       hint["number"] = 1;
-    } else if (keysToCheck.includes("scheme")) {
-      hint["scheme"] = 1;
     } else {
       keysToCheck.forEach((key) => {
         if (
